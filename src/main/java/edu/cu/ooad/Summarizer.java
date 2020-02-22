@@ -1,7 +1,7 @@
-package main.java.edu.cu.ooad;
+package edu.cu.ooad;
 
-import main.java.edu.cu.ooad.util.Observable;
-import main.java.edu.cu.ooad.util.Observer;
+import edu.cu.ooad.util.Observable;
+import edu.cu.ooad.util.Observer;
 
 import java.util.Objects;
 public class Summarizer implements Observer {

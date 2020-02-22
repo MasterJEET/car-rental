@@ -1,11 +1,8 @@
-package main.java;
-
-import main.java.cartype.*;
-import main.java.edu.cu.ooad.Car;
-import main.java.edu.cu.ooad.CarType;
-import main.java.edu.cu.ooad.Recorder;
-import main.java.edu.cu.ooad.Store;
-import main.java.edu.cu.ooad.util.UniqueIDGenerator;
+import cartype.Economy;
+import cartype.Luxury;
+import edu.cu.ooad.Car;
+import edu.cu.ooad.CarType;
+import edu.cu.ooad.Store;
 
 public class CarRental extends Store {
 

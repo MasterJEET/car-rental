@@ -1,6 +1,6 @@
-package main.java.edu.cu.ooad.util;
+package edu.cu.ooad.util;
 
-import main.java.edu.cu.ooad.util.Observer;
+import edu.cu.ooad.util.Observer;
 
 public interface Observable {
     void registerObserver(Observer observer);

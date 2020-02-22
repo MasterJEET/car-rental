@@ -1,4 +1,4 @@
-package main.java.edu.cu.ooad.util;
+package edu.cu.ooad.util;
 
 import java.util.HashMap;
 import java.util.Map;

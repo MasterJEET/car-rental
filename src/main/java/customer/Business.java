@@ -1,11 +1,11 @@
-package main.java.customer;
+package customer;
 
-import main.java.edu.cu.ooad.Customer;
-import main.java.edu.cu.ooad.util.UniqueIDGenerator;
+import edu.cu.ooad.Customer;
+import edu.cu.ooad.util.UniqueIDGenerator;
 
 public class Business extends Customer {
-    public Business() {
-        super(7, 7, 3, 3);
+    public Business(Integer numOfCars, Integer numOfDays) {
+        super(7, 7, 3, 3, numOfCars, numOfDays);
         customerID = UniqueIDGenerator.getInstance().generateUniqueID("BZN");
     }
 }

@@ -1,7 +1,7 @@
-package main.java.edu.cu.ooad;
+package edu.cu.ooad;
 
-import main.java.BusinessRule;
-import main.java.edu.cu.ooad.util.UniqueIDGenerator;
+import edu.cu.ooad.util.UniqueIDGenerator;
+import rules.BusinessRule;
 
 import java.util.*;
 
@@ -283,6 +283,7 @@ public class Recorder {
         //TODO: Check if you need it
     }
 
+    //TODO: Add code to update inventory as the Customers return the Cars
     public void increaseDayNumber() {
         dayNumber++;
     }

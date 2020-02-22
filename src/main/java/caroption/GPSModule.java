@@ -1,7 +1,7 @@
-package main.java.caroption;
+package caroption;
 
-import main.java.edu.cu.ooad.Car;
-import main.java.edu.cu.ooad.CarOption;
+import edu.cu.ooad.Car;
+import edu.cu.ooad.CarOption;
 
 public class GPSModule extends CarOption {
 

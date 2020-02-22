@@ -1,6 +1,6 @@
-package main.java.edu.cu.ooad;
+package edu.cu.ooad;
 
-import main.java.edu.cu.ooad.util.*;
+import edu.cu.ooad.util.*;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,6 +1,4 @@
-package main.java.edu.cu.ooad;
-
-import java.util.concurrent.ThreadLocalRandom;
+package edu.cu.ooad;
 
 public abstract class Customer {
     /**
@@ -38,17 +36,37 @@ public abstract class Customer {
      */
     protected Integer numDaysRequested;
 
+    //TODO: Check for allowed number of Cars and Days should be in BusinessRule
     protected Customer(Integer minNumDays,
                        Integer maxNumDays,
                        Integer minNumCars,
-                       Integer maxNumCars) {
+                       Integer maxNumCars,
+                       Integer numCarsRequested,
+                       Integer numDaysRequested) {
         this.minNumDays = minNumDays;
         this.maxNumDays = maxNumDays;
         this.minNumCars = minNumCars;
         this.maxNumCars = maxNumCars;
 
-        numDaysRequested = ThreadLocalRandom.current().nextInt(minNumDays, maxNumDays + 1);
-        numCarsRequested = ThreadLocalRandom.current().nextInt(minNumCars, maxNumCars + 1);
+        if(numCarsRequested < minNumCars) {
+            this.numCarsRequested = minNumCars;
+        }
+        else if (numCarsRequested > maxNumCars) {
+            this.numCarsRequested = maxNumCars;
+        }
+        else {
+            this.numCarsRequested = numCarsRequested;
+        }
+
+        if(numDaysRequested < minNumDays) {
+            this.numDaysRequested = minNumDays;
+        }
+        else if (numDaysRequested > maxNumDays) {
+            this.numDaysRequested = maxNumDays;
+        }
+        else {
+            this.numDaysRequested = numDaysRequested;
+        }
     }
 
     public Integer getNumDaysRequested() {

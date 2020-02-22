@@ -1,4 +1,4 @@
-package main.java.edu.cu.ooad;
+package edu.cu.ooad;
 
 public abstract class CarOption extends Car {
 

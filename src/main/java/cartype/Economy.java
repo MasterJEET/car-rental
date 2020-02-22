@@ -1,8 +1,8 @@
-package main.java.cartype;
+package cartype;
 
-import main.java.edu.cu.ooad.Car;
-import main.java.edu.cu.ooad.CarType;
-import main.java.edu.cu.ooad.util.UniqueIDGenerator;
+import edu.cu.ooad.Car;
+import edu.cu.ooad.CarType;
+import edu.cu.ooad.util.UniqueIDGenerator;
 
 public class Economy extends Car {
 

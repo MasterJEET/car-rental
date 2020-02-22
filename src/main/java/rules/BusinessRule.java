@@ -1,9 +1,8 @@
-package main.java;
+package rules;
 
-import main.java.edu.cu.ooad.Customer;
-import main.java.edu.cu.ooad.Recorder;
-import main.java.edu.cu.ooad.Rule;
-
+import edu.cu.ooad.Rule;
+import edu.cu.ooad.Recorder;
+import edu.cu.ooad.Customer;
 import java.util.Objects;
 
 public class BusinessRule implements Rule {
