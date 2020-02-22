@@ -1,0 +1,25 @@
+#### DISCUSS WITH TEAM BEFORE MODIFYING THIS FILE
+#### Sample .gitignore taken from: https://github.com/salarmehr/IDEA-gitignore
+#### ignore all .idea files ...
+*
+
+#### except
+
+# So that others can have .gitignore file
+!.gitignore
+
+# Version Control configuration for your project
+!vcs.xml
+
+# how IDEA should treat the text files in your project
+!encodings.xml
+
+# automatic code formatting
+!codeStyleSettings.xml
+
+# project specific words
+!dictionaries
+
+!copyrights
+!misc.xml
+!sqldialects.xml
