@@ -10,7 +10,7 @@ public class Main {
         Customer business = new Business(3,7);
 
         carRental.startNewDay();
-        carRental.startRent(CarType.LUXURY, business);
-        carRental.startRent(CarType.SUV, business);
+        carRental.startNewRental(CarType.LUXURY, business);
+        carRental.startNewRental(CarType.SUV, business);
     }
 }

@@ -49,10 +49,17 @@ public class Recorder {
         public CarType carType;
         public Customer customer;
         public StringBuffer msg;
-        public Data(CarType carType, Customer customer, StringBuffer msg) {
+        public String transactionID;
+        public RentalStatus rentalStatus;
+        public Data(CarType carType, Customer customer, StringBuffer msg, String transactionID, RentalStatus rentalStatus) {
             this.carType = carType;
             this.customer = customer;
             this.msg = msg;
+            this.transactionID = transactionID;
+            this.rentalStatus = rentalStatus;
+        }
+        Data() {
+            this(null, null, null, null, null);
         }
     }
 
@@ -62,19 +69,46 @@ public class Recorder {
         public Customer customer;
         public RentalStatus rentalStatus;
         public Integer numOfCars;
+
+        /**
+         * The number of days the Car has been rented
+         */
         public Integer numOfDays;
+
+        /**
+         * The day on which the current transaction took place
+         */
+        public Integer dayNumber;
         Transaction(String transactionID,
                     Car car,
                     Customer customer,
                     RentalStatus rentalStatus,
                     Integer numOfCars,
-                    Integer numOfDays) {
+                    Integer numOfDays,
+                    Integer dayNumber) {
             this.transactionID = transactionID;
             this.car = car;
             this.customer = customer;
             this.rentalStatus = rentalStatus;
             this.numOfCars = numOfCars;
             this.numOfDays = numOfDays;
+            this.dayNumber = dayNumber;
+        }
+    }
+
+    public class Limit {
+        public Integer minNumOfCars;
+        public Integer maxNumOfCars;
+        public Integer minNumOfDays;
+        public Integer maxNumOfDays;
+        Limit(Integer minNumOfCars, Integer maxNumOfCars, Integer minNumOfDays, Integer maxNumOfDays) {
+            this.maxNumOfCars = maxNumOfCars;
+            this.minNumOfCars = minNumOfCars;
+            this.minNumOfDays = minNumOfDays;
+            this.maxNumOfDays = maxNumOfDays;
+        }
+        Limit() {
+            this(0,0,0,0);
         }
     }
 
@@ -84,6 +118,12 @@ public class Recorder {
      * All the validation is done by business rule
      */
     private Rule rule = new BusinessRule(this);
+
+    /**
+     * Key: Customer type
+     * Value: Limit object storing maximum and minimum limits for a customer type
+     */
+    private Map<Customer.Type, Limit> customerTypeLimitMap = new HashMap<>();
 
     private Integer dayNumber = 0;
 
@@ -131,6 +171,16 @@ public class Recorder {
      * This specifies what to be done with this object (Recorder) when passed to an Summarizer
      */
     private Action action = Action.DEFAULT;
+
+    public Recorder() {
+        Limit casual = new Limit(1,1,1,3);
+        Limit regular = new Limit(1,3,3,5);
+        Limit business = new Limit(3,3,7,7);
+
+        customerTypeLimitMap.put(Customer.Type.CASUAL, casual);
+        customerTypeLimitMap.put(Customer.Type.REGULAR, regular);
+        customerTypeLimitMap.put(Customer.Type.BUSINESS, business);
+    }
 
     private boolean addToRentalStatusTIDListMap(RentalStatus rentalStatus, String transactionID, StringBuffer errMsg) {
         List<String> tidList = rentalStatusTIDListMap.get(rentalStatus);
@@ -199,14 +249,14 @@ public class Recorder {
         return true;
     }
 
-    public boolean addRecord(CarType carType,
-                             Customer customer,
-                             StringBuffer errMsg) {
+    public String addNewRental(CarType carType,
+                                Customer customer,
+                                StringBuffer errMsg) {
         //TODO: Move the validation to somewhere else, may be new class BusinessRule
-        data = new Data(carType, customer, errMsg);
+        data = new Data(carType, customer, errMsg, null, null);
         if(!rule.validate(BusinessRule.Validation.ADD_NEW_RENTAL))
         {
-            return false;
+            return null;
         }
 
         String transactionID = UniqueIDGenerator.getInstance().generateUniqueID("TRN");
@@ -217,30 +267,25 @@ public class Recorder {
                 car,
                 customer,
                 RentalStatus.ACTIVE,
-                customer.getNumCarsRequested(),
-                customer.getNumDaysRequested()
+                customer.getNumOfCars(),
+                customer.getNumOfDays(),
+                dayNumber
         );
         tidTransactionMap.put(transactionID, transaction);
 
         addToCIDActiveTIDListMap(customer.getCustomerID(), transactionID, errMsg);
         addToRentalStatusTIDListMap(RentalStatus.ACTIVE, transactionID, errMsg);
         addToDayNumTIDListMap(dayNumber, transactionID, errMsg);
-        removeFromCarTypeAvailableLPLListMap(car.getCarType(), car.getLicensePlateNumber());
-        return true;
+        removeFromCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+        return transactionID;
     }
 
-    public boolean updateRecord(String transactionID,
-                                RentalStatus newStatus,
-                                StringBuffer errMsg) {
-        RentalStatus oldStatus = tidTransactionMap.get(transactionID).rentalStatus;
-        if(oldStatus == null) {
-            errMsg.append("Transaction ID not found in the system: ").append(transactionID);
+    public boolean completeRental(String transactionID,
+                                  RentalStatus newStatus,
+                                  StringBuffer errMsg) {
+        data = new Data(null, null, errMsg, transactionID, newStatus);
+        if (!rule.validate(BusinessRule.Validation.COMPLETE_RENTAL)) {
             return false;
-        }
-
-        if(newStatus == oldStatus) {
-            //Nothing to update
-            return true;
         }
 
         if (newStatus != RentalStatus.ACTIVE) {
@@ -249,10 +294,10 @@ public class Recorder {
         }
         if(newStatus == RentalStatus.COMPLETE) {
             Car car = tidTransactionMap.get(transactionID).car;
-            addToCarTypeAvailableLPLListMap(car.getCarType(), car.getLicensePlateNumber());
+            addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
         }
         tidTransactionMap.get(transactionID).rentalStatus = newStatus;
-        rentalStatusTIDListMap.get(oldStatus).remove(transactionID);
+        rentalStatusTIDListMap.get( tidTransactionMap.get(transactionID).rentalStatus ).remove(transactionID);
         addToRentalStatusTIDListMap(newStatus, transactionID, errMsg);
         return true;
     }
@@ -272,7 +317,7 @@ public class Recorder {
      */
     public void addCar(Car car) {
         lplCarMap.put(car.getLicensePlateNumber(), car);
-        addToCarTypeAvailableLPLListMap(car.getCarType(), car.getLicensePlateNumber());
+        addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
     }
 
     public void removeCar(Car car) {
@@ -303,11 +348,14 @@ public class Recorder {
             List<Car> list = new LinkedList<>();
             availableLPLList.stream()
                     .limit(numOfCar)
-                    .forEach(lpl -> list.add(lplCarMap.get(lpl)));
+                    .forEach(lpl -> {
+                        list.add(lplCarMap.get(lpl));
+                    });
             return list;
         }
         return null;
     }
+
     public Car getCarOfType(CarType carType) {
         List<Car> list = getNCarsOfType(carType, 1);
         if(list != null) {
@@ -316,11 +364,23 @@ public class Recorder {
         return null;
     }
 
+    /**
+     * @param carType Car Type
+     * @return Number of Cars of type 'carType' available for rent
+     */
+    public Integer getNumOfCarOfType(CarType carType) {
+        List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
+        if (availableLPLList == null) {
+            return 0;
+        }
+        return availableLPLList.size();
+    }
+
     public Data getData() {
         return data;
     }
 
-    public Integer getNumberOfCarsRentedByCustomer(Customer customer) {
+    public Integer getNumOfCarsRentedByCustomer(Customer customer) {
         Integer count = 0;
         List<String> list = cidActiveTIDListMap.get(customer.getCustomerID());
         if (list == null) {
@@ -331,5 +391,34 @@ public class Recorder {
             count += tidTransactionMap.get(tid).numOfCars;
         }
         return count;
+    }
+
+    public void setMinCarLimitForCustomerType(Customer.Type customerType, Integer minNumOfCars) {
+        customerTypeLimitMap.get(customerType).minNumOfCars = minNumOfCars;
+    }
+    public void setMaxCarLimitForCustomerType(Customer.Type customerType, Integer maxNumOfCars) {
+        customerTypeLimitMap.get(customerType).maxNumOfCars = maxNumOfCars;
+    }
+    public void setMinDayLimitForCustomerType(Customer.Type customerType, Integer minNumOfDays) {
+        customerTypeLimitMap.get(customerType).minNumOfDays = minNumOfDays;
+    }
+    public void setMaxDayLimitForCustomerType(Customer.Type customerType, Integer maxNumOfDays) {
+        customerTypeLimitMap.get(customerType).maxNumOfDays = maxNumOfDays;
+    }
+    public Integer getMinCarLimitForCustomerType(Customer.Type customerType) {
+        return customerTypeLimitMap.get(customerType).minNumOfCars;
+    }
+    public Integer getMaxCarLimitForCustomerType(Customer.Type customerType) {
+        return customerTypeLimitMap.get(customerType).maxNumOfCars;
+    }
+    public Integer getMinDayLimitForCustomerType(Customer.Type customerType) {
+        return customerTypeLimitMap.get(customerType).minNumOfDays;
+    }
+    public Integer getMaxDayLimitForCustomerType(Customer.Type customerType) {
+        return customerTypeLimitMap.get(customerType).maxNumOfDays;
+    }
+
+    public Transaction getTransactionFromTID(String tid) {
+        return tidTransactionMap.get(tid);
     }
 }

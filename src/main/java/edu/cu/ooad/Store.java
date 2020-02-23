@@ -50,16 +50,17 @@ public abstract class Store implements Observable {
         }
     }
 
-    public boolean startRent(CarType carType, Customer customer) {
+    public String startNewRental(CarType carType, Customer customer) {
         StringBuffer errMsg = new StringBuffer();
-        if( !recorder.addRecord(carType, customer, errMsg) ) {
+        String transactionID = recorder.addNewRental(carType, customer, errMsg);
+        if( transactionID == null ) {
             System.err.println(errMsg);
-            return false;
+            return null;
         }
-        return true;
+        return transactionID;
     }
 
-    //TODO: Finish rent should be done automatically either by Store or the Recorder
+    //TODO: Simulator should call finish and system should verify
     /*
     public void finishRent(String transactionID) {
         StringBuffer errMsg = new StringBuffer();

@@ -1,12 +1,12 @@
 package edu.cu.ooad;
 
 public abstract class Car {
-    private CarType carType;
+    private CarType type;
     private String licensePlateNumber;
     protected Double pricePerDay;
 
-    protected Car(CarType carType, String licensePlateNumber, Double pricePerDay) {
-        this.carType = carType;
+    protected Car(CarType type, String licensePlateNumber, Double pricePerDay) {
+        this.type = type;
         this.licensePlateNumber = licensePlateNumber;
         this.pricePerDay = pricePerDay;
     }
@@ -29,7 +29,7 @@ public abstract class Car {
         this.pricePerDay = pricePerDay;
     }
 
-    public CarType getCarType() {
-        return carType;
+    public CarType getType() {
+        return type;
     }
 }

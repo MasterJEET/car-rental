@@ -4,6 +4,7 @@ import cartype.Economy;
 import customer.Regular;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -25,8 +26,8 @@ class RecorderTest {
         recorder.addCar(economy3);
         recorder.addCar(economy4);
 
-        recorder.addRecord(CarType.ECONOMY, regular1, errMsg);
-        recorder.addRecord(CarType.ECONOMY, regular1, errMsg);
+        recorder.addNewRental(CarType.ECONOMY, regular1, errMsg);
+        recorder.addNewRental(CarType.ECONOMY, regular1, errMsg);
     }
 
     @Test
@@ -36,7 +37,7 @@ class RecorderTest {
         List<Car> list = recorder.getNCarsOfType(CarType.ECONOMY, 2);
         Assertions.assertTrue(list != null);
         Assertions.assertEquals(2, list.size());
-        Assertions.assertEquals(CarType.ECONOMY, list.get(0).getCarType());
+        Assertions.assertEquals(CarType.ECONOMY, list.get(0).getType());
     }
 
     @Test
@@ -44,12 +45,39 @@ class RecorderTest {
         Assertions.assertEquals(null, recorder.getCarOfType(CarType.MINIVAN));
         Assertions.assertEquals(
                 CarType.ECONOMY.toString(),
-                recorder.getCarOfType(CarType.ECONOMY).getCarType().toString()
+                recorder.getCarOfType(CarType.ECONOMY).getType().toString()
         );
     }
 
     @Test
-    void getNumberOfCarsRentedByCustomer() {
-        Assertions.assertEquals(2, recorder.getNumberOfCarsRentedByCustomer(regular1));
+    void getNumOfCarsRentedByCustomer() {
+        Assertions.assertEquals(2, recorder.getNumOfCarsRentedByCustomer(regular1));
+    }
+
+    @Test
+    void addNewRental() {
+        StringBuffer errMsg = new StringBuffer();
+
+        //max car limit check
+        regular1.setNumOfCars(2);
+        Assertions.assertTrue(null == recorder.addNewRental(CarType.ECONOMY, regular1, errMsg));
+
+        //min car limit check
+        Customer regular2 = new Regular(0, 4);
+        Assertions.assertTrue(null == recorder.addNewRental(CarType.ECONOMY, regular2, errMsg));
+
+        //max day limit check
+        regular2.setNumOfDays(6);
+        Assertions.assertTrue(null == recorder.addNewRental(CarType.ECONOMY, regular2, errMsg));
+
+        //min day limit check
+        regular1.setNumOfDays(-1);
+        Assertions.assertTrue(null == recorder.addNewRental(CarType.ECONOMY, regular1, errMsg));
+    }
+
+    @Test
+    @Disabled
+    void completeRental() {
+        //TODO: Add test here
     }
 }
