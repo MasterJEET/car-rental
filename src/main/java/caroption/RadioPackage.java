@@ -3,9 +3,9 @@ package caroption;
 import edu.cu.ooad.Car;
 import edu.cu.ooad.CarOption;
 
-public class GPSModule extends CarOption {
-    public GPSModule(Car car) {
-        super(car, 20.0);
+public class RadioPackage extends CarOption {
+    public RadioPackage(Car car) {
+        super(car, 10.0);
     }
 
     @Override

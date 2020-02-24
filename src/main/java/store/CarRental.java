@@ -1,10 +1,17 @@
-import cartype.Economy;
-import cartype.Luxury;
+package store;
+
+import cartype.*;
 import edu.cu.ooad.Car;
 import edu.cu.ooad.Store;
 
 public class CarRental extends Store {
+    public CarRental() {
+        super();
+    }
 
+    public CarRental(Integer maxNumOfCar) {
+        super(maxNumOfCar);
+    }
     /**
      * @param carType : Type of the car to be created
      * @return Concrete object of carType
@@ -13,11 +20,22 @@ public class CarRental extends Store {
      */
     @Override
     protected Car getNewCar(Car.Type carType) {
-        // TODO: Complete all cases switch statement
         Car car = null;
         switch (carType) {
             case ECONOMY: {
                 car = new Economy();
+                break;
+            }
+            case STANDARD: {
+                car = new Standard();
+                break;
+            }
+            case MINIVAN: {
+                car = new MiniVan();
+                break;
+            }
+            case SUV: {
+                car = new SUV();
                 break;
             }
             case LUXURY: {

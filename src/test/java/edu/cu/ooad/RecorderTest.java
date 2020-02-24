@@ -4,11 +4,14 @@ import cartype.Economy;
 import cartype.Luxury;
 import customer.Business;
 import customer.Regular;
+import edu.cu.ooad.util.IntWithSum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import store.CarRental;
 
 import java.util.List;
+import java.util.Random;
 
 //TODO: Implement as per project description
 class RecorderTest {
@@ -195,5 +198,49 @@ class RecorderTest {
         // all options within limit
         r1.numOfRadioPackages = 1;
         Assertions.assertTrue(null != recorder.addNewRental(r1), r1.msg.toString());
+    }
+
+    //IntWithSum class testing
+    @Test
+    void intWithSum() {
+        Integer numOfInt = 5;
+        Integer sumOfInt = 24;
+        List<Integer> integers = IntWithSum.getIntegersWithSum(numOfInt, sumOfInt);
+
+        //verify num
+        Assertions.assertEquals(numOfInt, integers.size());
+
+        //verify sum
+        Assertions.assertEquals(sumOfInt, integers.stream().mapToInt(i->i).sum());
+    }
+
+    //Check store is being initialized as specified
+    @Test
+    void storeInitialization() {
+        Integer numOfCar = new Random().nextInt(31);
+        Store store = new CarRental(numOfCar);
+
+        // total num of car
+        if (numOfCar > 10) {
+            Assertions.assertEquals(numOfCar, store.getTotalNumOfCars());
+        }
+        else {
+            Assertions.assertEquals(10, store.getTotalNumOfCars());
+        }
+
+        // num of Economy cars
+        Assertions.assertTrue(store.getTotalNumOfCarsOfType(Car.Type.ECONOMY) >= 2);
+
+        // num of Standard cars
+        Assertions.assertTrue(store.getTotalNumOfCarsOfType(Car.Type.STANDARD) >= 2);
+
+        // num of MiniVans
+        Assertions.assertTrue(store.getTotalNumOfCarsOfType(Car.Type.MINIVAN) >= 2);
+
+        // num of SUV
+        Assertions.assertTrue(store.getTotalNumOfCarsOfType(Car.Type.SUV) >= 2);
+
+        // num of Luxury cars
+        Assertions.assertTrue(store.getTotalNumOfCarsOfType(Car.Type.LUXURY) >= 2);
     }
 }

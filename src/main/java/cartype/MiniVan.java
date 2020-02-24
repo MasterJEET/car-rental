@@ -3,10 +3,9 @@ package cartype;
 import edu.cu.ooad.Car;
 import edu.cu.ooad.util.UniqueIDGenerator;
 
-public class Economy extends Car {
-
-    public Economy() {
-        super(Car.Type.ECONOMY, UniqueIDGenerator.getInstance().generateUniqueID("ECO"), 20.0);
+public class MiniVan extends Car {
+    public MiniVan() {
+        super(Type.MINIVAN, UniqueIDGenerator.getInstance().generateUniqueID("MVN"), 28.0);
     }
 
     @Override

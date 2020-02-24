@@ -324,13 +324,16 @@ public class Recorder {
         addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
     }
 
+    /*
+    //NOTE: Not needed now
     public void removeCar(Car car) {
-        //TODO: Check if you need it
     }
+    */
 
+    /*
     public void removeCar(String lpl) {
-        //TODO: Check if you need it
     }
+    */
 
     //TODO: Add code to update inventory as the Customers return the Cars
     public void increaseDayNumber() {
@@ -372,7 +375,7 @@ public class Recorder {
      * @param carType Car Type
      * @return Number of Cars of type 'carType' available for rent
      */
-    public Integer getNumOfCarOfType(Car.Type carType) {
+    public Integer getAvailableNumOfCarOfType(Car.Type carType) {
         List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
         if (availableLPLList == null) {
             return 0;
@@ -466,5 +469,23 @@ public class Recorder {
 
     public Transaction getTransactionFromTID(String tid) {
         return tidTransactionMap.get(tid);
+    }
+
+    /**
+     * @return Total number of cars owned by store), counts all cars irrespective of whether it's rented or not
+     */
+    public Integer getTotalNumOfCars() {
+        return lplCarMap.size();
+    }
+
+    /**
+     * @param carType Car type
+     * @return number of Cars of type 'carType' owned by the store
+     */
+    public Integer getTotalNumOfCarsOfType(Car.Type carType) {
+        return Math.toIntExact(lplCarMap.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .filter(car -> car.getType() == carType)
+                .count());
     }
 }

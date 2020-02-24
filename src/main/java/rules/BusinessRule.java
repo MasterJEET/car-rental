@@ -77,7 +77,7 @@ public class BusinessRule implements Rule {
 
     private boolean isCarTypeAvailable() {
         Record data = recorder.getRecord();
-        Integer numAvailable = recorder.getNumOfCarOfType(data.carType);
+        Integer numAvailable = recorder.getAvailableNumOfCarOfType(data.carType);
         Integer numRequest = data.numOfCars;
         if (numRequest > numAvailable) {
             data.msg.delete(0, data.msg.length());

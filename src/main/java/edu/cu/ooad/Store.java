@@ -1,16 +1,33 @@
 package edu.cu.ooad;
 
+import edu.cu.ooad.util.IntWithSum;
 import edu.cu.ooad.util.Observable;
 import edu.cu.ooad.util.Observer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Store implements Observable {
     private List<Observer> observers = new LinkedList<>();
     private Recorder recorder = new Recorder();
+    /**
+     * The numbers of Cars in inventory, when no car is rented (=maximum number of cars the store has at
+     * any given time)
+     */
+    private Integer maxNumOfCars;
 
     protected Store() {
+        this(24);
+    }
+
+    /**
+     * @param maxNumOfCars The number of Cars the store should add to its inventory, should be > 10.
+     *                     In any case at least 10 cars, 2 of each category are always created
+     */
+    protected Store(Integer maxNumOfCars) {
+        this.maxNumOfCars = maxNumOfCars;
         initialize();
     }
 
@@ -26,9 +43,38 @@ public abstract class Store implements Observable {
      * Creates required number of Cars and add to recorder, any other initializations
      */
     private void initialize() {
-        //TODO: Complete the initialization
-        recorder.addCar(getNewCar(Car.Type.ECONOMY));
-        recorder.addCar(getNewCar(Car.Type.LUXURY));
+        // Add two cars of each category, irrespective of maxNumOfCars specified
+        List<Car.Type> carTypes = new ArrayList<>(Arrays.asList(
+                Car.Type.ECONOMY,
+                Car.Type.STANDARD,
+                Car.Type.MINIVAN,
+                Car.Type.SUV,
+                Car.Type.LUXURY));
+        for (Car.Type type:
+             carTypes) {
+            for (Car car:
+                 getNewCars(type,2)) {
+                recorder.addCar(car);
+            }
+        }
+        // if maxNumOfCars <= 10, stop creating more create cars instead of raising exceptions
+        if (maxNumOfCars <= 10) {
+            return;
+        }
+
+        // get a list of 5 (number of car types) Integer who sum to 14 (maxNumOfCars - num already added)
+        Integer numOfInt = carTypes.size();   //number of car types
+        Integer sumOfInt = maxNumOfCars - 10;
+        List<Integer> integers = IntWithSum.getIntegersWithSum(numOfInt, sumOfInt);
+        int i = 0;
+        for (Integer numOfCar:
+             integers) {
+            List<Car> cars = getNewCars(carTypes.get(i), numOfCar);
+            for (Car car:
+                 cars) {
+                recorder.addCar(car);
+            }
+        }
     }
 
     @Override
@@ -49,6 +95,14 @@ public abstract class Store implements Observable {
         for (Observer observer: observers) {
             observer.update(object);
         }
+    }
+
+    public List<Car> getNewCars(Car.Type type, Integer numOfCars) {
+        List<Car> cars = new LinkedList<>();
+        for(int i=0; i<numOfCars; i++) {
+            cars.add(getNewCar(type));
+        }
+        return cars;
     }
 
     public String addNewRental(Car.Type carType,
@@ -76,13 +130,15 @@ public abstract class Store implements Observable {
     }
 
     //TODO: Simulator should call finish and system should verify
-    /*
-    public void completeRental(String transactionID) {
-        StringBuffer errMsg = new StringBuffer();
-        if( !recorder.updateRecord(transactionID, Recorder.RentalStatus.COMPLETE, errMsg) ) {
-            System.err.println(errMsg);
+    public boolean completeRental(String transactionID) {
+        Record record = new Record();
+        record.transactionID = transactionID;
+        if( !recorder.completeRental(record) ) {
+            System.err.println(record.msg);
+            return false;
         }
-    }*/
+        return true;
+    }
 
     public void startNewDay() {
         recorder.increaseDayNumber();
@@ -92,5 +148,16 @@ public abstract class Store implements Observable {
 
     public Integer getDayNumber() {
         return recorder.getDayNumber();
+    }
+
+    /**
+     * @return Total number of cars added to the inventory, it's basically the number of cars owned by the store
+     */
+    public Integer getTotalNumOfCars() {
+        return recorder.getTotalNumOfCars();
+    }
+
+    public Integer getTotalNumOfCarsOfType(Car.Type carType) {
+        return recorder.getTotalNumOfCarsOfType(carType);
     }
 }
