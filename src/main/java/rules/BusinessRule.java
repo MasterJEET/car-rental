@@ -1,5 +1,6 @@
 package rules;
 
+import edu.cu.ooad.Record;
 import edu.cu.ooad.Rule;
 import edu.cu.ooad.Recorder;
 import edu.cu.ooad.Customer;
@@ -68,9 +69,9 @@ public class BusinessRule implements Rule {
     }
 
     private boolean isCarTypeAvailable() {
-        Recorder.Data data = recorder.getData();
+        Record data = recorder.getRecord();
         Integer numAvailable = recorder.getNumOfCarOfType(data.carType);
-        Integer numRequest = data.customer.getNumOfCars();
+        Integer numRequest = data.numOfCars;
         if (numRequest > numAvailable) {
             data.msg.append("Requested number of cars of required type not available; type: ")
                     .append(data.carType.toString())
@@ -87,12 +88,12 @@ public class BusinessRule implements Rule {
      * @return False if total number of Cars already rented plus newly requested breaches the allowed limit
      */
     private boolean isNumOfCarWithinLimit() {
-        Customer customer = recorder.getData().customer;
-        Integer numOfCars = customer.getNumOfCars() + recorder.getNumOfCarsRentedByCustomer(customer);
+        Customer customer = recorder.getRecord().customer;
+        Integer numOfCars = recorder.getRecord().numOfCars + recorder.getNumOfCarsRentedByCustomer(customer);
         Integer minLimit = recorder.getMinCarLimitForCustomerType(customer.getType());
         Integer maxLimit = recorder.getMaxCarLimitForCustomerType(customer.getType());
         if(numOfCars < minLimit || numOfCars > maxLimit) {
-            recorder.getData().msg
+            recorder.getRecord().msg
                     .append("Approval of requested number of cars will breach the limit for customer type: ")
                     .append(customer.getType().toString())
                     .append("; max: ")
@@ -102,7 +103,7 @@ public class BusinessRule implements Rule {
                     .append(", already rented: ")
                     .append(recorder.getNumOfCarsRentedByCustomer(customer))
                     .append(", newly requested : ")
-                    .append(customer.getNumOfCars());
+                    .append(recorder.getRecord().numOfCars);
             return false;
         }
         return true;
@@ -112,12 +113,12 @@ public class BusinessRule implements Rule {
      * @return True if requested numOfDays for rent falls within the allowed limit customer for customer type
      */
     private boolean isNumOfDayWithinLimit() {
-        Customer customer = recorder.getData().customer;
-        Integer numOfDays = customer.getNumOfDays();
+        Customer customer = recorder.getRecord().customer;
+        Integer numOfDays = recorder.getRecord().numOfDays;
         Integer minLimit = recorder.getMinDayLimitForCustomerType(customer.getType());
         Integer maxLimit = recorder.getMaxDayLimitForCustomerType(customer.getType());
         if (numOfDays < minLimit || numOfDays > maxLimit) {
-            recorder.getData().msg
+            recorder.getRecord().msg
                     .append("Number of days requested for rent violates the limit for customer type: ")
                     .append(customer.getType().toString())
                     .append("; max: ")
@@ -132,12 +133,12 @@ public class BusinessRule implements Rule {
     }
 
     private boolean doesTransactionExist() {
-        Recorder.RentalStatus oldStatus =
-                recorder.getTransactionFromTID(recorder.getData().transactionID).rentalStatus;
-        if(oldStatus == null) {
-            recorder.getData().msg
+        Recorder.Transaction transaction =
+                recorder.getTransactionFromTID(recorder.getRecord().transactionID);
+        if(transaction == null) {
+            recorder.getRecord().msg
                     .append("Transaction not found in the system, tid: ")
-                    .append(recorder.getData().transactionID);
+                    .append(recorder.getRecord().transactionID);
             return false;
         }
         return true;
@@ -147,12 +148,12 @@ public class BusinessRule implements Rule {
      * @return True if today is the day rental should be complete and car should be returned by the customer
      */
     private boolean shouldCompleteToday() {
-        Recorder.Transaction transaction = recorder.getTransactionFromTID( recorder.getData().transactionID );
+        Recorder.Transaction transaction = recorder.getTransactionFromTID( recorder.getRecord().transactionID );
         Integer transactionDay = transaction.dayNumber;
         Integer today = recorder.getDayNumber();
         Integer numOfDaysRented = transaction.numOfDays;
         if(today < transactionDay + numOfDaysRented) {
-            recorder.getData().msg
+            recorder.getRecord().msg
                     .append("Cannot accept car return earlier than originally agreed, deal start: ")
                     .append(transactionDay)
                     .append(" , deal end: ")
@@ -162,7 +163,7 @@ public class BusinessRule implements Rule {
             return false;
         }
         else if (today > transactionDay + numOfDaysRented) {
-            recorder.getData().msg
+            recorder.getRecord().msg
                     .append("Car return overdue, need to go through special process; expected car on day: ")
                     .append(transactionDay+numOfDaysRented)
                     .append(", today: ")
@@ -177,11 +178,11 @@ public class BusinessRule implements Rule {
      */
     private boolean isNotComplete() {
         Recorder.RentalStatus oldStatus =
-                recorder.getTransactionFromTID(recorder.getData().transactionID).rentalStatus;
+                recorder.getTransactionFromTID(recorder.getRecord().transactionID).rentalStatus;
         if (oldStatus == Recorder.RentalStatus.COMPLETE) {
-            recorder.getData().msg
+            recorder.getRecord().msg
                     .append("Transaction status is complete, tid: ")
-                    .append(recorder.getData().transactionID);
+                    .append(recorder.getRecord().transactionID);
             return false;
         }
         return true;

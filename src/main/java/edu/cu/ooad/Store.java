@@ -1,6 +1,7 @@
 package edu.cu.ooad;
 
-import edu.cu.ooad.util.*;
+import edu.cu.ooad.util.Observable;
+import edu.cu.ooad.util.Observer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -50,11 +51,19 @@ public abstract class Store implements Observable {
         }
     }
 
-    public String startNewRental(CarType carType, Customer customer) {
-        StringBuffer errMsg = new StringBuffer();
-        String transactionID = recorder.addNewRental(carType, customer, errMsg);
+    public String addNewRental(CarType carType,
+                               Customer customer,
+                               Integer numOfCars,
+                               Integer numOfDays) {
+        Record record = new Record();
+        record.carType = carType;
+        record.customer = customer;
+        record.numOfCars = numOfCars;
+        record.numOfDays = numOfDays;
+
+        String transactionID = recorder.addNewRental(record);
         if( transactionID == null ) {
-            System.err.println(errMsg);
+            System.err.println(record.msg);
             return null;
         }
         return transactionID;
@@ -62,7 +71,7 @@ public abstract class Store implements Observable {
 
     //TODO: Simulator should call finish and system should verify
     /*
-    public void finishRent(String transactionID) {
+    public void completeRental(String transactionID) {
         StringBuffer errMsg = new StringBuffer();
         if( !recorder.updateRecord(transactionID, Recorder.RentalStatus.COMPLETE, errMsg) ) {
             System.err.println(errMsg);

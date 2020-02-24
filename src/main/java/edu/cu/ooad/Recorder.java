@@ -42,27 +42,6 @@ public class Recorder {
         COMPLETE
     }
 
-    /**
-     * Used for passing information to BusinessRule
-     */
-    public class Data {
-        public CarType carType;
-        public Customer customer;
-        public StringBuffer msg;
-        public String transactionID;
-        public RentalStatus rentalStatus;
-        public Data(CarType carType, Customer customer, StringBuffer msg, String transactionID, RentalStatus rentalStatus) {
-            this.carType = carType;
-            this.customer = customer;
-            this.msg = msg;
-            this.transactionID = transactionID;
-            this.rentalStatus = rentalStatus;
-        }
-        Data() {
-            this(null, null, null, null, null);
-        }
-    }
-
     public class Transaction {
         public String transactionID;
         public Car car;
@@ -79,6 +58,7 @@ public class Recorder {
          * The day on which the current transaction took place
          */
         public Integer dayNumber;
+
         Transaction(String transactionID,
                     Car car,
                     Customer customer,
@@ -112,20 +92,20 @@ public class Recorder {
         }
     }
 
-    private Data data;
+    private Record record;
 
     /**
      * All the validation is done by business rule
      */
     private Rule rule = new BusinessRule(this);
 
+    private Integer dayNumber = 0;
+
     /**
      * Key: Customer type
      * Value: Limit object storing maximum and minimum limits for a customer type
      */
     private Map<Customer.Type, Limit> customerTypeLimitMap = new HashMap<>();
-
-    private Integer dayNumber = 0;
 
     /**
      * Key: License plate number of the Car
@@ -182,7 +162,52 @@ public class Recorder {
         customerTypeLimitMap.put(Customer.Type.BUSINESS, business);
     }
 
-    private boolean addToRentalStatusTIDListMap(RentalStatus rentalStatus, String transactionID, StringBuffer errMsg) {
+    public String addNewRental(Record record) {
+        //TODO: Move the validation to somewhere else, may be new class BusinessRule
+        this.record = record;
+        if(!rule.validate(BusinessRule.Validation.ADD_NEW_RENTAL))
+        {
+            return null;
+        }
+
+        String transactionID = UniqueIDGenerator.getInstance().generateUniqueID("TRN");
+        Car car = getCarOfType(record.carType);
+
+        Transaction transaction = new Transaction(
+                transactionID,
+                car,
+                record.customer,
+                RentalStatus.ACTIVE,
+                record.numOfCars,
+                record.numOfDays,
+                dayNumber
+        );
+        tidTransactionMap.put(transactionID, transaction);
+
+        addToCIDActiveTIDListMap(record.customer.getCustomerID(), transactionID);
+        addToRentalStatusTIDListMap(RentalStatus.ACTIVE, transactionID);
+        addToDayNumTIDListMap(dayNumber, transactionID);
+        removeFromCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+        return transactionID;
+    }
+
+    public boolean completeRental(Record record) {
+        this.record = record;
+        if (!rule.validate(BusinessRule.Validation.COMPLETE_RENTAL)) {
+            return false;
+        }
+
+        Customer customer = tidTransactionMap.get(record.transactionID).customer;
+        removeFromCIDActiveTIDListMap(customer.getCustomerID(), record.transactionID);
+        Car car = tidTransactionMap.get(record.transactionID).car;
+        addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+        removeFromRentalStatusTIDListMap(tidTransactionMap.get(record.transactionID).rentalStatus, record.transactionID);
+        addToRentalStatusTIDListMap(RentalStatus.COMPLETE, record.transactionID);
+        tidTransactionMap.get(record.transactionID).rentalStatus = RentalStatus.COMPLETE;
+        return true;
+    }
+
+    private boolean addToRentalStatusTIDListMap(RentalStatus rentalStatus, String transactionID) {
         List<String> tidList = rentalStatusTIDListMap.get(rentalStatus);
         if(tidList == null) {
             rentalStatusTIDListMap.put(
@@ -196,7 +221,18 @@ public class Recorder {
         return true;
     }
 
-    private boolean addToCIDActiveTIDListMap(String customerID, String transactionID, StringBuffer errMsg) {
+    private boolean removeFromRentalStatusTIDListMap(RentalStatus rentalStatus, String transactionID) {
+        List<String> tidList = rentalStatusTIDListMap.get(rentalStatus);
+        if(tidList != null) {
+            tidList.remove(transactionID);
+            if(tidList.isEmpty()) {
+                rentalStatusTIDListMap.remove(rentalStatus);
+            }
+        }
+        return true;
+    }
+
+    private boolean addToCIDActiveTIDListMap(String customerID, String transactionID) {
         List<String> activeTIDList = cidActiveTIDListMap.get(customerID);
         if(activeTIDList == null) {
             cidActiveTIDListMap.put(
@@ -210,7 +246,18 @@ public class Recorder {
         return true;
     }
 
-    private boolean addToDayNumTIDListMap(Integer dayNumber, String transactionID, StringBuffer errMsg) {
+    private boolean removeFromCIDActiveTIDListMap(String customerID, String transactionID) {
+        List<String> activeTIDList = cidActiveTIDListMap.get(customerID);
+        if(activeTIDList != null) {
+            activeTIDList.remove(transactionID);
+            if(activeTIDList.isEmpty()) {
+                cidActiveTIDListMap.remove(customerID);
+            }
+        }
+        return true;
+    }
+
+    private boolean addToDayNumTIDListMap(Integer dayNumber, String transactionID) {
         List<String> tidInDayList = dayNumTIDListMap.get(dayNumber);
         if(tidInDayList == null) {
             dayNumTIDListMap.put(
@@ -246,59 +293,6 @@ public class Recorder {
                 carTypeAvailableLPLListMap.remove(carType);
             }
         }
-        return true;
-    }
-
-    public String addNewRental(CarType carType,
-                                Customer customer,
-                                StringBuffer errMsg) {
-        //TODO: Move the validation to somewhere else, may be new class BusinessRule
-        data = new Data(carType, customer, errMsg, null, null);
-        if(!rule.validate(BusinessRule.Validation.ADD_NEW_RENTAL))
-        {
-            return null;
-        }
-
-        String transactionID = UniqueIDGenerator.getInstance().generateUniqueID("TRN");
-        Car car = getCarOfType(carType);
-
-        Transaction transaction = new Transaction(
-                transactionID,
-                car,
-                customer,
-                RentalStatus.ACTIVE,
-                customer.getNumOfCars(),
-                customer.getNumOfDays(),
-                dayNumber
-        );
-        tidTransactionMap.put(transactionID, transaction);
-
-        addToCIDActiveTIDListMap(customer.getCustomerID(), transactionID, errMsg);
-        addToRentalStatusTIDListMap(RentalStatus.ACTIVE, transactionID, errMsg);
-        addToDayNumTIDListMap(dayNumber, transactionID, errMsg);
-        removeFromCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
-        return transactionID;
-    }
-
-    public boolean completeRental(String transactionID,
-                                  RentalStatus newStatus,
-                                  StringBuffer errMsg) {
-        data = new Data(null, null, errMsg, transactionID, newStatus);
-        if (!rule.validate(BusinessRule.Validation.COMPLETE_RENTAL)) {
-            return false;
-        }
-
-        if (newStatus != RentalStatus.ACTIVE) {
-            Customer customer = tidTransactionMap.get(transactionID).customer;
-            cidActiveTIDListMap.get( customer.getCustomerID() ).remove(transactionID);
-        }
-        if(newStatus == RentalStatus.COMPLETE) {
-            Car car = tidTransactionMap.get(transactionID).car;
-            addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
-        }
-        tidTransactionMap.get(transactionID).rentalStatus = newStatus;
-        rentalStatusTIDListMap.get( tidTransactionMap.get(transactionID).rentalStatus ).remove(transactionID);
-        addToRentalStatusTIDListMap(newStatus, transactionID, errMsg);
         return true;
     }
 
@@ -376,8 +370,8 @@ public class Recorder {
         return availableLPLList.size();
     }
 
-    public Data getData() {
-        return data;
+    public Record getRecord() {
+        return record;
     }
 
     public Integer getNumOfCarsRentedByCustomer(Customer customer) {

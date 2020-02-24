@@ -4,8 +4,7 @@ import edu.cu.ooad.Customer;
 import edu.cu.ooad.util.UniqueIDGenerator;
 
 public class Regular extends Customer {
-    public Regular(Integer numOfCars, Integer numOfDays) {
-        super(numOfCars, numOfDays);
+    public Regular() {
         type = Type.REGULAR;
         customerID = UniqueIDGenerator.getInstance().generateUniqueID("REG");
     }
