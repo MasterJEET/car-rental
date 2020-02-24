@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+//TODO: Implement as per project description
 class RecorderTest {
     private Recorder recorder = new Recorder();
     private Customer regular1 = new Regular();

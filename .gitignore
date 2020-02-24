@@ -1,3 +1,4 @@
 # Ignore IDE related files
 /car-rental.iml
 /out
+/target
