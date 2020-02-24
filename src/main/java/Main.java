@@ -1,8 +1,5 @@
-import edu.cu.ooad.CarType;
-import edu.cu.ooad.Customer;
-import edu.cu.ooad.Record;
-import edu.cu.ooad.Summarizer;
 import customer.Business;
+import edu.cu.ooad.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +9,7 @@ public class Main {
         Record recordBus = new Record();
 
         carRental.startNewDay();
-        carRental.addNewRental(CarType.LUXURY, business, 3, 7);
-        carRental.addNewRental(CarType.SUV, business, 3, 7);
+        carRental.addNewRental(Car.Type.LUXURY, business, 3, 7, 0, 0, 0);
+        carRental.addNewRental(Car.Type.SUV, business, 3, 7, 0, 0, 0);
     }
 }

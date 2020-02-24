@@ -20,15 +20,15 @@ public abstract class Store implements Observable {
      *
      * This method is used to get new Cars that need to be added to the inventory
      */
-    protected abstract Car getNewCar(CarType carType);
+    protected abstract Car getNewCar(Car.Type carType);
 
     /**
      * Creates required number of Cars and add to recorder, any other initializations
      */
     private void initialize() {
         //TODO: Complete the initialization
-        recorder.addCar(getNewCar(CarType.ECONOMY));
-        recorder.addCar(getNewCar(CarType.LUXURY));
+        recorder.addCar(getNewCar(Car.Type.ECONOMY));
+        recorder.addCar(getNewCar(Car.Type.LUXURY));
     }
 
     @Override
@@ -51,15 +51,21 @@ public abstract class Store implements Observable {
         }
     }
 
-    public String addNewRental(CarType carType,
+    public String addNewRental(Car.Type carType,
                                Customer customer,
                                Integer numOfCars,
-                               Integer numOfDays) {
+                               Integer numOfDays,
+                               Integer numOfChildSeats,
+                               Integer numOfGPSModules,
+                               Integer numOfRadioPackages) {
         Record record = new Record();
         record.carType = carType;
         record.customer = customer;
         record.numOfCars = numOfCars;
         record.numOfDays = numOfDays;
+        record.numOfChildSeats = numOfChildSeats;
+        record.numOfGPSModules = numOfGPSModules;
+        record.numOfRadioPackages = numOfRadioPackages;
 
         String transactionID = recorder.addNewRental(record);
         if( transactionID == null ) {

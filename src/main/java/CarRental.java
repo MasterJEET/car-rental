@@ -1,19 +1,18 @@
 import cartype.Economy;
 import cartype.Luxury;
 import edu.cu.ooad.Car;
-import edu.cu.ooad.CarType;
 import edu.cu.ooad.Store;
 
 public class CarRental extends Store {
 
     /**
-     * @param carType: Type of the car to be created
+     * @param carType : Type of the car to be created
      * @return Concrete object of carType
      *
      * This method demonstrates the 'Factory method pattern'
      */
     @Override
-    protected Car getNewCar(CarType carType) {
+    protected Car getNewCar(Car.Type carType) {
         // TODO: Complete all cases switch statement
         Car car = null;
         switch (carType) {

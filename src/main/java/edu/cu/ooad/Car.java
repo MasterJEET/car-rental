@@ -1,11 +1,21 @@
 package edu.cu.ooad;
 
 public abstract class Car {
-    private CarType type;
+    public enum Type {
+        DEFAULT,
+        ECONOMY,
+        STANDARD,
+        MINIVAN,
+        SUV,
+        LUXURY,
+        INVALID
+    }
+
+    private Type type;
     private String licensePlateNumber;
     protected Double pricePerDay;
 
-    protected Car(CarType type, String licensePlateNumber, Double pricePerDay) {
+    protected Car(Type type, String licensePlateNumber, Double pricePerDay) {
         this.type = type;
         this.licensePlateNumber = licensePlateNumber;
         this.pricePerDay = pricePerDay;
@@ -29,7 +39,7 @@ public abstract class Car {
         this.pricePerDay = pricePerDay;
     }
 
-    public CarType getType() {
+    public Type getType() {
         return type;
     }
 }

@@ -4,7 +4,7 @@ package edu.cu.ooad;
  * Used for sharing information across the system
  */
 public class Record {
-    public CarType carType = CarType.DEFAULT;
+    public Car.Type carType = Car.Type.DEFAULT;
     public Customer customer = null;
     public StringBuffer msg = new StringBuffer();
     public String transactionID = null;

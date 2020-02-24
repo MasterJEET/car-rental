@@ -76,18 +76,21 @@ public class Recorder {
         }
     }
 
-    public class Limit {
+    /**
+     * Limit placed on particular customer type based on how man cars can they rent and for how many days
+     */
+    public class CusTypeLimit {
         public Integer minNumOfCars;
         public Integer maxNumOfCars;
         public Integer minNumOfDays;
         public Integer maxNumOfDays;
-        Limit(Integer minNumOfCars, Integer maxNumOfCars, Integer minNumOfDays, Integer maxNumOfDays) {
+        public CusTypeLimit(Integer minNumOfCars, Integer maxNumOfCars, Integer minNumOfDays, Integer maxNumOfDays) {
             this.maxNumOfCars = maxNumOfCars;
             this.minNumOfCars = minNumOfCars;
             this.minNumOfDays = minNumOfDays;
             this.maxNumOfDays = maxNumOfDays;
         }
-        Limit() {
+        CusTypeLimit() {
             this(0,0,0,0);
         }
     }
@@ -103,9 +106,15 @@ public class Recorder {
 
     /**
      * Key: Customer type
-     * Value: Limit object storing maximum and minimum limits for a customer type
+     * Value: Limit object storing maximum and minimum limits (on days and cars) for a customer type
      */
-    private Map<Customer.Type, Limit> customerTypeLimitMap = new HashMap<>();
+    private Map<Customer.Type, CusTypeLimit> customerTypeLimitMap = new HashMap<>();
+
+    /**
+     * Key: Car option type
+     * Value: Integer  which is maximum limit on number of additions of given 'option type' (minimum is zero)
+     */
+    private Map<CarOption.OptionType, Integer> optionTypeMaxLimitMap = new HashMap<>();
 
     /**
      * Key: License plate number of the Car
@@ -143,9 +152,7 @@ public class Recorder {
      * Key: CarType
      * Value: List of license plate numbers of CarType available for rent
      */
-    private Map<CarType, List<String>> carTypeAvailableLPLListMap = new HashMap<>();
-
-    private Integer maxAllowedRental = 2;
+    private Map<Car.Type, LinkedList<String>> carTypeAvailableLPLListMap = new HashMap<Car.Type, LinkedList<String>>();
 
     /**
      * This specifies what to be done with this object (Recorder) when passed to an Summarizer
@@ -153,17 +160,20 @@ public class Recorder {
     private Action action = Action.DEFAULT;
 
     public Recorder() {
-        Limit casual = new Limit(1,1,1,3);
-        Limit regular = new Limit(1,3,3,5);
-        Limit business = new Limit(3,3,7,7);
+        CusTypeLimit casual = new CusTypeLimit(1,1,1,3);
+        CusTypeLimit regular = new CusTypeLimit(1,3,3,5);
+        CusTypeLimit business = new CusTypeLimit(3,3,7,7);
 
         customerTypeLimitMap.put(Customer.Type.CASUAL, casual);
         customerTypeLimitMap.put(Customer.Type.REGULAR, regular);
         customerTypeLimitMap.put(Customer.Type.BUSINESS, business);
+
+        optionTypeMaxLimitMap.put(CarOption.OptionType.CHILD_SEAT,4);
+        optionTypeMaxLimitMap.put(CarOption.OptionType.GPS_MODULE,1);
+        optionTypeMaxLimitMap.put(CarOption.OptionType.RADIO_PACKAGE,1);
     }
 
     public String addNewRental(Record record) {
-        //TODO: Move the validation to somewhere else, may be new class BusinessRule
         this.record = record;
         if(!rule.validate(BusinessRule.Validation.ADD_NEW_RENTAL))
         {
@@ -271,7 +281,7 @@ public class Recorder {
         return true;
     }
 
-    private boolean addToCarTypeAvailableLPLListMap(CarType carType, String lpl) {
+    private boolean addToCarTypeAvailableLPLListMap(Car.Type carType, String lpl) {
         List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
         if(availableLPLList == null){
             carTypeAvailableLPLListMap.put(
@@ -285,7 +295,7 @@ public class Recorder {
         return true;
     }
 
-    private boolean removeFromCarTypeAvailableLPLListMap(CarType carType, String lpl) {
+    private boolean removeFromCarTypeAvailableLPLListMap(Car.Type carType, String lpl) {
         List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
         if (availableLPLList != null) {
             availableLPLList.remove(lpl);
@@ -336,7 +346,7 @@ public class Recorder {
      * @param numOfCar : Number of car of type 'carType' requested
      * @return : 'numOfCar' concrete Cars of type 'carType', null if requested number of Car not available
      */
-    public List<Car> getNCarsOfType(CarType carType, Integer numOfCar) {
+    public List<Car> getNCarsOfType(Car.Type carType, Integer numOfCar) {
         List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
         if(availableLPLList != null && availableLPLList.size() >= numOfCar) {
             List<Car> list = new LinkedList<>();
@@ -350,7 +360,7 @@ public class Recorder {
         return null;
     }
 
-    public Car getCarOfType(CarType carType) {
+    public Car getCarOfType(Car.Type carType) {
         List<Car> list = getNCarsOfType(carType, 1);
         if(list != null) {
             return list.get(0);
@@ -362,7 +372,7 @@ public class Recorder {
      * @param carType Car Type
      * @return Number of Cars of type 'carType' available for rent
      */
-    public Integer getNumOfCarOfType(CarType carType) {
+    public Integer getNumOfCarOfType(Car.Type carType) {
         List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
         if (availableLPLList == null) {
             return 0;
@@ -399,17 +409,59 @@ public class Recorder {
     public void setMaxDayLimitForCustomerType(Customer.Type customerType, Integer maxNumOfDays) {
         customerTypeLimitMap.get(customerType).maxNumOfDays = maxNumOfDays;
     }
+
+    /**
+     * @param customerType The customer type
+     * @return required limit if 'customerType' is present, Integer.MIN_VALUE otherwise
+     */
     public Integer getMinCarLimitForCustomerType(Customer.Type customerType) {
-        return customerTypeLimitMap.get(customerType).minNumOfCars;
+        CusTypeLimit limit = customerTypeLimitMap.get(customerType);
+        if (limit == null) {
+            return Integer.MAX_VALUE;
+        }
+        return limit.minNumOfCars;
     }
+
+    /**
+     * @param customerType The customer type
+     * @return required limit if 'customerType' is present, Integer.MAX_VALUE otherwise
+     */
     public Integer getMaxCarLimitForCustomerType(Customer.Type customerType) {
-        return customerTypeLimitMap.get(customerType).maxNumOfCars;
+        CusTypeLimit limit = customerTypeLimitMap.get(customerType);
+        if (limit == null) {
+            return Integer.MIN_VALUE;
+        }
+        return limit.maxNumOfCars;
     }
     public Integer getMinDayLimitForCustomerType(Customer.Type customerType) {
-        return customerTypeLimitMap.get(customerType).minNumOfDays;
+        CusTypeLimit limit = customerTypeLimitMap.get(customerType);
+        if (limit == null) {
+            return Integer.MAX_VALUE;
+        }
+        return limit.minNumOfDays;
     }
     public Integer getMaxDayLimitForCustomerType(Customer.Type customerType) {
-        return customerTypeLimitMap.get(customerType).maxNumOfDays;
+        CusTypeLimit limit = customerTypeLimitMap.get(customerType);
+        if (limit == null) {
+            return Integer.MIN_VALUE;
+        }
+        return limit.maxNumOfDays;
+    }
+
+    public void setMaxLimitForOptionType(CarOption.OptionType optionType, Integer limit) {
+        optionTypeMaxLimitMap.put(optionType, limit);
+    }
+
+    /**
+     * @param optionType : Type of option the customer requested
+     * @return Maximum limit per car of this option type if 'optionType' is present, Integer.MIN_VALUE otherwise
+     */
+    public Integer getMaxLimitForOptionType(CarOption.OptionType optionType) {
+        Integer limit = optionTypeMaxLimitMap.get(optionType);
+        if (limit == null) {
+            return Integer.MIN_VALUE;
+        }
+        return limit;
     }
 
     public Transaction getTransactionFromTID(String tid) {
