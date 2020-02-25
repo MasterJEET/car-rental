@@ -1,8 +1,6 @@
 package edu.cu.ooad;
 
-import edu.cu.ooad.util.IntWithSum;
-import edu.cu.ooad.util.Observable;
-import edu.cu.ooad.util.Observer;
+import edu.cu.ooad.util.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +9,7 @@ import java.util.List;
 
 public abstract class Store implements Observable {
     private List<Observer> observers = new LinkedList<>();
-    private Recorder recorder = new Recorder();
+    private Recorder recorder = new Recorder(this);
     /**
      * The numbers of Cars in inventory, when no car is rented (=maximum number of cars the store has at
      * any given time)
@@ -38,6 +36,18 @@ public abstract class Store implements Observable {
      * This method is used to get new Cars that need to be added to the inventory
      */
     protected abstract Car getNewCar(Car.Type carType);
+
+    /**
+     * @param car Car to be decorated
+     * @param numOfChildSeats required number of child seats
+     * @param numOfGPSModules required number of gps modules
+     * @param numOfRadioPackages required number of radio packages
+     * @return A Car decorated with specified number of options using 'Decorator pattern'
+     */
+    protected abstract Car decorateCar(Car car,
+                                       Integer numOfChildSeats,
+                                       Integer numOfGPSModules,
+                                       Integer numOfRadioPackages);
 
     /**
      * Creates required number of Cars and add to recorder, any other initializations
@@ -67,13 +77,13 @@ public abstract class Store implements Observable {
         Integer sumOfInt = maxNumOfCars - 10;
         List<Integer> integers = IntWithSum.getIntegersWithSum(numOfInt, sumOfInt);
         int i = 0;
-        for (Integer numOfCar:
-             integers) {
+        for (Integer numOfCar:  integers) {
             List<Car> cars = getNewCars(carTypes.get(i), numOfCar);
             for (Car car:
                  cars) {
                 recorder.addCar(car);
             }
+            i++;
         }
     }
 
@@ -105,25 +115,43 @@ public abstract class Store implements Observable {
         return cars;
     }
 
-    public String addNewRental(Car.Type carType,
-                               Customer customer,
-                               Integer numOfCars,
-                               Integer numOfDays,
-                               Integer numOfChildSeats,
-                               Integer numOfGPSModules,
-                               Integer numOfRadioPackages) {
-        Record record = new Record();
-        record.carType = carType;
-        record.customer = customer;
-        record.numOfCars = numOfCars;
-        record.numOfDays = numOfDays;
-        record.numOfChildSeats = numOfChildSeats;
-        record.numOfGPSModules = numOfGPSModules;
-        record.numOfRadioPackages = numOfRadioPackages;
+    /**
+     * @param customer Customer who wants to rent a car
+     * @param numOfDays number of days for which the customer wants to rent a car
+     * @param numOfCars number of cars the customer wants
+     * @param carTypeList types of cars the customer wants
+     * @return transaction ID if customers request is approved
+     */
+    public String addNewRental(Customer customer,
+                           Integer numOfDays,
+                           Integer numOfCars,
+                           List<Car.Type> carTypeList) {
+        List<Integer> list = new LinkedList<>();
+        for (int i =0; i<carTypeList.size(); i++) {
+            list.add(0);
+        }
+        return addNewRental(customer, numOfDays, numOfCars, carTypeList, list, list, list);
+    }
 
-        String transactionID = recorder.addNewRental(record);
+    public String addNewRental(Customer customer,
+                               Integer numOfDays,
+                               Integer numOfCars,
+                               List<Car.Type> carTypeList,
+                               List<Integer> numOfChildSeatsList,
+                               List<Integer> numOfGPSModulesList,
+                               List<Integer> numOfRadioPackagesList) {
+        Transaction transaction = new Transaction();
+        transaction.customer = customer;
+        transaction.numOfDays = numOfDays;
+        transaction.numOfCars = numOfCars;
+        transaction.carTypeList = carTypeList;
+        transaction.numOfChildSeatsList = numOfChildSeatsList;
+        transaction.numOfGPSModulesList = numOfGPSModulesList;
+        transaction.numOfRadioPackagesList = numOfRadioPackagesList;
+
+        String transactionID = recorder.addNewRental(transaction);
         if( transactionID == null ) {
-            System.err.println(record.msg);
+            System.err.println(transaction.msg);
             return null;
         }
         return transactionID;
@@ -131,10 +159,10 @@ public abstract class Store implements Observable {
 
     //TODO: Simulator should call finish and system should verify
     public boolean completeRental(String transactionID) {
-        Record record = new Record();
-        record.transactionID = transactionID;
-        if( !recorder.completeRental(record) ) {
-            System.err.println(record.msg);
+        Transaction transaction = new Transaction();
+        transaction.transactionID = transactionID;
+        if( !recorder.completeRental(transaction) ) {
+            System.err.println(transaction.msg);
             return false;
         }
         return true;
@@ -142,7 +170,15 @@ public abstract class Store implements Observable {
 
     public void startNewDay() {
         recorder.increaseDayNumber();
+    }
+
+    public void endDay() {
         recorder.setAction(Recorder.Action.GENERATE_DAILY_REPORT);
+        notifyObservers(recorder);
+    }
+
+    public void generateOverallStatus() {
+        recorder.setAction(Recorder.Action.GENERATE_OVERALL_STATUS);
         notifyObservers(recorder);
     }
 
@@ -159,5 +195,19 @@ public abstract class Store implements Observable {
 
     public Integer getTotalNumOfCarsOfType(Car.Type carType) {
         return recorder.getTotalNumOfCarsOfType(carType);
+    }
+
+    public void addCarOfType(Car.Type carType) {
+        Car car = getNewCar(carType);
+        recorder.addCar(car);
+        maxNumOfCars++;
+    }
+
+    public Report getReportForDay(Integer dayNumber) {
+        return recorder.getReportForDay(dayNumber);
+    }
+
+    public Report getOverallStatusReport() {
+        return recorder.getOverallStatusReport();
     }
 }

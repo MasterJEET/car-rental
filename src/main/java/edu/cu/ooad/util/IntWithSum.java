@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 public class IntWithSum {
     /**
-     * Return list of positive 'numOfInt' random integers which sum to 'sumOfInt',
+     * Return list of 'numOfInt' non-negative (psuedo)random integers which sum to 'sumOfInt',
      * returns null if invalid arguments supplied
     */
     public static List<Integer> getIntegersWithSum(Integer numOfInt, Integer sumOfInt) {
-        if (numOfInt == 0 || sumOfInt == 0) {
+        if (numOfInt < 1 || sumOfInt < 0) {
             return null;
         }
 

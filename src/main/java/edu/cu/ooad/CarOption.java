@@ -22,7 +22,7 @@ public abstract class CarOption extends Car {
     protected Double optionPrice;
 
     protected CarOption(Car car, Double optionPrice) {
-        super(Car.Type.INVALID, "NO LICENSE PLATE", 0.0);
+        super(car.getType(), car.getLicensePlateNumber(), 0.0);
         this.car = car;
         this.optionPrice = optionPrice;
     }

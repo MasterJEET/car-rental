@@ -42,4 +42,15 @@ public abstract class Car {
     public Type getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer display = new StringBuffer();
+        display
+                .append("Car{")
+                .append("type=").append(String.format("%10s", type))
+                .append(", licensePlateNumber='").append(licensePlateNumber).append("'")
+                .append('}');
+        return display.toString();
+    }
 }

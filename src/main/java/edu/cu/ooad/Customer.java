@@ -22,4 +22,15 @@ public abstract class Customer {
     public Type getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer display = new StringBuffer();
+        display
+                .append("Customer{")
+                .append("type=").append(String.format("%10s",type))
+                .append(", customerID='").append(customerID).append("'")
+                .append('}');
+        return display.toString();
+    }
 }

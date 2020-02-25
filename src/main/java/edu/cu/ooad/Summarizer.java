@@ -2,8 +2,11 @@ package edu.cu.ooad;
 
 import edu.cu.ooad.util.Observable;
 import edu.cu.ooad.util.Observer;
+import edu.cu.ooad.util.RentalStatus;
+import edu.cu.ooad.util.Report;
 
 import java.util.Objects;
+
 public class Summarizer implements Observer {
     private Observable observable;
 
@@ -21,19 +24,16 @@ public class Summarizer implements Observer {
             System.err.println("Expected a Recorder object, got " + object.getClass().getSimpleName());
         }
         else {
-            //TODO: Generate summary using data from Recorder
             Recorder recorder = (Recorder)object;
             switch (recorder.getAction()) {
                 case GENERATE_DAILY_REPORT:
                 {
-                    //TODO: Generate and store daily report
-                    System.out.println("Daily report needs to be created.");
+                    generateDailyReport(recorder);
                     break;
                 }
-                case GENERATE_FINAL_REPORT:
+                case GENERATE_OVERALL_STATUS:
                 {
-                    //TODO: Generate and store overall final report
-                    System.out.println("Final report needs to be created.");
+                    generateOverallStatus(recorder);
                     break;
                 }
                 default:
@@ -48,7 +48,30 @@ public class Summarizer implements Observer {
         }
     }
 
+    private void generateDailyReport(Recorder recorder) {
+        Report report = new Report();
+        report.type = Report.Type.DAILY_REPORT;
+        report.dayNumber = recorder.getDayNumber();
+        report.completedRentals = recorder.getTransactionsOfStatus(RentalStatus.COMPLETE);
+        report.activeRentals = recorder.getTransactionsOfStatus(RentalStatus.ACTIVE);
+        report.availableCars = recorder.getAvailableCars();
+        report.transactions = recorder.getTransactionsOfDay();
+
+        recorder.addReportForDay(report.dayNumber, report);
+    }
+
+    private void generateOverallStatus(Recorder recorder) {
+        Report report = new Report();
+        report.type = Report.Type.OVERALL_STATUS;
+        report.dayNumber = recorder.getDayNumber();
+        report.completedRentals = recorder.getTransactionsOfStatus(RentalStatus.COMPLETE);
+        report.activeRentals = recorder.getTransactionsOfStatus(RentalStatus.ACTIVE);
+
+        recorder.setOverallStatusReport(report);
+    }
+
     public void close() {
         observable.removeObserver(this);
     }
+
 }

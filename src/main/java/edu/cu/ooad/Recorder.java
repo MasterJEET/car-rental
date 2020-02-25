@@ -1,9 +1,13 @@
 package edu.cu.ooad;
 
+import edu.cu.ooad.util.RentalStatus;
+import edu.cu.ooad.util.Report;
+import edu.cu.ooad.util.Transaction;
 import edu.cu.ooad.util.UniqueIDGenerator;
 import rules.BusinessRule;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Recorder {
     /**
@@ -21,59 +25,7 @@ public class Recorder {
         /**
          * This Action specifies that a final overall report needs to be generated
          */
-        GENERATE_FINAL_REPORT
-    }
-
-    /**
-     * Enumerates all possible state of a car rental
-     */
-    public enum RentalStatus {
-        /**
-         * Unknown status
-         */
-        DEFAULT,
-        /**
-         * Customer has the Cars, rent period is active
-         */
-        ACTIVE,
-        /**
-         * Customer has returned the Cars after completion of rental duration
-         */
-        COMPLETE
-    }
-
-    public class Transaction {
-        public String transactionID;
-        public Car car;
-        public Customer customer;
-        public RentalStatus rentalStatus;
-        public Integer numOfCars;
-
-        /**
-         * The number of days the Car has been rented
-         */
-        public Integer numOfDays;
-
-        /**
-         * The day on which the current transaction took place
-         */
-        public Integer dayNumber;
-
-        Transaction(String transactionID,
-                    Car car,
-                    Customer customer,
-                    RentalStatus rentalStatus,
-                    Integer numOfCars,
-                    Integer numOfDays,
-                    Integer dayNumber) {
-            this.transactionID = transactionID;
-            this.car = car;
-            this.customer = customer;
-            this.rentalStatus = rentalStatus;
-            this.numOfCars = numOfCars;
-            this.numOfDays = numOfDays;
-            this.dayNumber = dayNumber;
-        }
+        GENERATE_OVERALL_STATUS
     }
 
     /**
@@ -95,14 +47,26 @@ public class Recorder {
         }
     }
 
-    private Record record;
+    private Transaction transaction;
 
     /**
      * All the validation is done by business rule
      */
     private Rule rule = new BusinessRule(this);
 
+    private Store store = null;
+
     private Integer dayNumber = 0;
+
+    /**
+     * The maximum number of Cars that a customer can rent, this is different from per transaction limit.
+     *
+     * Per transaction limit specifies what's the maximum (or minimum) number of cars that a given
+     * customer can rent in one rental request (transaction). But customer can make multiple rental
+     * request, the limit below specifies the maximum number of Cars that certain customer can rent
+     * considering all rental requests.
+     */
+    private Integer maxCarLimit = 3;
 
     /**
      * Key: Customer type
@@ -155,11 +119,22 @@ public class Recorder {
     private Map<Car.Type, LinkedList<String>> carTypeAvailableLPLListMap = new HashMap<Car.Type, LinkedList<String>>();
 
     /**
+     * Key: The day number
+     * Value: The report for the day
+     */
+    private Map<Integer, Report> dayNumReportMap = new HashMap<>();
+
+    /**
+     * To hold the overall status of the system/car rental after the completion of simulation
+     */
+    private Report overallStatusReport = null;
+
+    /**
      * This specifies what to be done with this object (Recorder) when passed to an Summarizer
      */
     private Action action = Action.DEFAULT;
 
-    public Recorder() {
+    private Recorder() {
         CusTypeLimit casual = new CusTypeLimit(1,1,1,3);
         CusTypeLimit regular = new CusTypeLimit(1,3,3,5);
         CusTypeLimit business = new CusTypeLimit(3,3,7,7);
@@ -173,47 +148,67 @@ public class Recorder {
         optionTypeMaxLimitMap.put(CarOption.OptionType.RADIO_PACKAGE,1);
     }
 
-    public String addNewRental(Record record) {
-        this.record = record;
+    public Recorder(Store store) {
+        this();
+        this.store = store;
+    }
+
+    public String addNewRental(Transaction transaction) {
+        this.transaction = new Transaction(transaction);
+        this.transaction.dayNumber = dayNumber;
+        this.transaction.transactionID = UniqueIDGenerator.getInstance().generateUniqueID("TRN");
         if(!rule.validate(BusinessRule.Validation.ADD_NEW_RENTAL))
         {
+            transaction.msg = this.transaction.msg;
             return null;
         }
 
-        String transactionID = UniqueIDGenerator.getInstance().generateUniqueID("TRN");
-        Car car = getCarOfType(record.carType);
-
-        Transaction transaction = new Transaction(
-                transactionID,
-                car,
-                record.customer,
-                RentalStatus.ACTIVE,
-                record.numOfCars,
-                record.numOfDays,
-                dayNumber
-        );
-        tidTransactionMap.put(transactionID, transaction);
-
-        addToCIDActiveTIDListMap(record.customer.getCustomerID(), transactionID);
+        String transactionID = this.transaction.transactionID;
+        addToCIDActiveTIDListMap(this.transaction.customer.getCustomerID(), transactionID);
+        tidTransactionMap.put(transactionID, this.transaction);
         addToRentalStatusTIDListMap(RentalStatus.ACTIVE, transactionID);
         addToDayNumTIDListMap(dayNumber, transactionID);
-        removeFromCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+
+        Iterator<Car.Type> itrCarType = this.transaction.carTypeList.iterator();
+        Iterator<Integer> itrNumSeats = this.transaction.numOfChildSeatsList.iterator();
+        Iterator<Integer> itrNumGPS = this.transaction.numOfGPSModulesList.iterator();
+        Iterator<Integer> itrNumRadio = this.transaction.numOfRadioPackagesList.iterator();
+        while (itrCarType.hasNext() && itrCarType.hasNext() && itrNumGPS.hasNext() && itrNumRadio.hasNext()) {
+            Car car = store.decorateCar(
+                    getCarOfType( itrCarType.next() ),
+                    itrNumSeats.next(),
+                    itrNumGPS.next(),
+                    itrNumRadio.next());
+            this.transaction.carList.add(car);
+            removeFromCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+        }
+        this.transaction.rentalStatus = RentalStatus.ACTIVE;
         return transactionID;
     }
 
-    public boolean completeRental(Record record) {
-        this.record = record;
+    public boolean completeRental(Transaction transaction) {
+        //NOTE: Transaction object received will only have the transactionID, nothing else
+        this.transaction = new Transaction();
+        this.transaction.transactionID = transaction.transactionID;
         if (!rule.validate(BusinessRule.Validation.COMPLETE_RENTAL)) {
             return false;
         }
 
-        Customer customer = tidTransactionMap.get(record.transactionID).customer;
-        removeFromCIDActiveTIDListMap(customer.getCustomerID(), record.transactionID);
-        Car car = tidTransactionMap.get(record.transactionID).car;
-        addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
-        removeFromRentalStatusTIDListMap(tidTransactionMap.get(record.transactionID).rentalStatus, record.transactionID);
-        addToRentalStatusTIDListMap(RentalStatus.COMPLETE, record.transactionID);
-        tidTransactionMap.get(record.transactionID).rentalStatus = RentalStatus.COMPLETE;
+        String transactionID = this.transaction.transactionID;
+
+        //This seems trivial but it's required to get the relevant details from system
+        this.transaction = tidTransactionMap.get(transactionID);
+
+        Customer customer = this.transaction.customer;
+        removeFromCIDActiveTIDListMap(customer.getCustomerID(), transactionID);
+
+        for (Car car:
+             this.transaction.carList) {
+            addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
+        }
+        removeFromRentalStatusTIDListMap(this.transaction.rentalStatus, transactionID);
+        addToRentalStatusTIDListMap(RentalStatus.COMPLETE, transactionID);
+        tidTransactionMap.get(transactionID).rentalStatus = RentalStatus.COMPLETE;
         return true;
     }
 
@@ -221,7 +216,7 @@ public class Recorder {
         List<String> tidList = rentalStatusTIDListMap.get(rentalStatus);
         if(tidList == null) {
             rentalStatusTIDListMap.put(
-                    RentalStatus.ACTIVE,
+                    rentalStatus,
                     new LinkedList<>(Collections.singletonList(transactionID))
             );
         }
@@ -324,18 +319,6 @@ public class Recorder {
         addToCarTypeAvailableLPLListMap(car.getType(), car.getLicensePlateNumber());
     }
 
-    /*
-    //NOTE: Not needed now
-    public void removeCar(Car car) {
-    }
-    */
-
-    /*
-    public void removeCar(String lpl) {
-    }
-    */
-
-    //TODO: Add code to update inventory as the Customers return the Cars
     public void increaseDayNumber() {
         dayNumber++;
     }
@@ -383,8 +366,8 @@ public class Recorder {
         return availableLPLList.size();
     }
 
-    public Record getRecord() {
-        return record;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
     public Integer getNumOfCarsRentedByCustomer(Customer customer) {
@@ -487,5 +470,74 @@ public class Recorder {
                 .map(Map.Entry::getValue)
                 .filter(car -> car.getType() == carType)
                 .count());
+    }
+
+    public List<Transaction> getTransactionsOfStatus(RentalStatus rentalStatus) {
+        List<String> tidList = rentalStatusTIDListMap.get(rentalStatus);
+        if (tidList == null) {
+            return null;
+        }
+        List<Transaction> transactions = tidList.stream()
+                .map(tid -> tidTransactionMap.get(tid))
+                .collect(Collectors.toList());
+        return transactions;
+    }
+
+    /**
+     * @return List of cars available for rent
+     */
+    public List<Car> getAvailableCars() {
+        List<Car> cars = new LinkedList<>();
+        carTypeAvailableLPLListMap.entrySet().stream()
+                .map(Map.Entry::getValue)
+                .forEach(lplList -> {
+                    for (String lpl: lplList) {
+                        cars.add(lplCarMap.get(lpl));
+                    }
+                });
+        return cars;
+    }
+
+    public List<Transaction> getTransactionsOfDay() {
+        return getTransactionsOfDay(dayNumber);
+    }
+
+    public List<Transaction> getTransactionsOfDay(Integer dayNumber) {
+        if (dayNumber > this.dayNumber) {
+            return null;
+        }
+        List<String> tidList = dayNumTIDListMap.get(dayNumber);
+        if (tidList == null) {
+            return null;
+        }
+
+        List<Transaction> transactions = tidList.stream()
+                .map(tid -> tidTransactionMap.get(tid))
+                .collect(Collectors.toList());
+        return transactions;
+    }
+
+    public Integer getMaxCarLimit() {
+        return maxCarLimit;
+    }
+
+    public void setMaxCarLimit(Integer maxCarLimit) {
+        this.maxCarLimit = maxCarLimit;
+    }
+
+    public void addReportForDay(Integer dayNumber, Report report) {
+        dayNumReportMap.put(dayNumber, report);
+    }
+
+    public Report getReportForDay(Integer dayNumber) {
+        return dayNumReportMap.get(dayNumber);
+    }
+
+    public void setOverallStatusReport(Report overallStatusReport) {
+        this.overallStatusReport = overallStatusReport;
+    }
+
+    public Report getOverallStatusReport() {
+        return overallStatusReport;
     }
 }

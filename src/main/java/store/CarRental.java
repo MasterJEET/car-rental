@@ -1,5 +1,8 @@
 package store;
 
+import caroption.ChildSeat;
+import caroption.GPSModule;
+import caroption.RadioPackage;
 import cartype.*;
 import edu.cu.ooad.Car;
 import edu.cu.ooad.Store;
@@ -46,6 +49,20 @@ public class CarRental extends Store {
                 System.err.println("Unknown car type requested: " + carType.toString());
                 break;
             }
+        }
+        return car;
+    }
+
+    @Override
+    protected Car decorateCar(Car car, Integer numOfChildSeats, Integer numOfGPSModules, Integer numOfRadioPackages) {
+        for (int i = 0; i < numOfChildSeats; i++) {
+            car = new ChildSeat(car);
+        }
+        for (int i = 0; i < numOfGPSModules; i++) {
+            car = new GPSModule(car);
+        }
+        for (int i = 0; i < numOfRadioPackages; i++) {
+            car = new RadioPackage(car);
         }
         return car;
     }
