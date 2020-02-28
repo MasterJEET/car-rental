@@ -1,0 +1,345 @@
+\hypertarget{classedu_1_1cu_1_1ooad_1_1Store}{}\doxysection{edu.\+cu.\+ooad.\+Store Class Reference}
+\label{classedu_1_1cu_1_1ooad_1_1Store}\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+
+
+Inheritance diagram for edu.\+cu.\+ooad.\+Store\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=233pt]{classedu_1_1cu_1_1ooad_1_1Store__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for edu.\+cu.\+ooad.\+Store\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classedu_1_1cu_1_1ooad_1_1Store__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a095a267ba7f3e734fa31f2a5d8b1da8a}{register\+Observer}} (\mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}} observer)
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a8b57fac6a7e9da682f43dc42a932913f}{remove\+Observer}} (\mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}} observer)
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_afc0e36e57c3dd0464503941d53a78c2c}{notify\+Observers}} (Object object)
+\item 
+List$<$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} $>$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a83f939391c8a48a9156a94ccae8b68b0}{get\+New\+Cars}} (\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} type, Integer num\+Of\+Cars)
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_ad049279aaf7d0b8f30e8929293627487}{add\+New\+Rental}} (\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}} customer, Integer num\+Of\+Days, Integer num\+Of\+Cars, List$<$ \mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} $>$ car\+Type\+List)
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a177c5ca368e84ff56b6f8588ef2c752b}{add\+New\+Rental}} (\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}} customer, Integer num\+Of\+Days, Integer num\+Of\+Cars, List$<$ \mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} $>$ car\+Type\+List, List$<$ Integer $>$ num\+Of\+Child\+Seats\+List, List$<$ Integer $>$ num\+Of\+G\+P\+S\+Modules\+List, List$<$ Integer $>$ num\+Of\+Radio\+Packages\+List)
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a05b820420194f85d2b0b69ec070863ab}{add\+New\+Rental}} (\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Transaction}{Transaction}} transaction)
+\item 
+boolean \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_af96f55de19e3dd1b1c7c114eaa8baae1}{complete\+Rental}} (String transaction\+ID)
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_aecfcf3ec9395f675d14dcd8451599ef9}{start\+New\+Day}} ()
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a2d6cfa6052b5a2e9e96c62359c3aac7b}{end\+Day}} ()
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a677ee005f26cf4b0acd0c5804c0794f7}{generate\+Overall\+Status}} ()
+\item 
+Integer \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_aafc2e41799e3bd5079fa35a1aa601691}{get\+Day\+Number}} ()
+\item 
+Integer \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_afbd48bcaaf84bfe09069297a82f3897c}{get\+Total\+Num\+Of\+Cars}} ()
+\item 
+Integer \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a9b43a8e2c3891b353e45bcaca7c130c6}{get\+Total\+Num\+Of\+Cars\+Of\+Type}} (\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} car\+Type)
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a72df404ef0a55cdfcea206317e716867}{add\+Car\+Of\+Type}} (\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} car\+Type)
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Report}{Report}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a4495c071807a84c6f4ad82f1d9c47293}{get\+Report\+For\+Day}} (Integer day\+Number)
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Report}{Report}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a516ddf505c15f884dc8c706501c0d5d2}{get\+Overall\+Status\+Report}} ()
+\item 
+Map$<$ \mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Customer_1_1Type}{Customer.\+Type}}, Recorder.\+Cus\+Type\+Limit $>$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a9000dd08d548746eab12135849eab673}{get\+Customer\+Type\+Limit\+Map}} ()
+\item 
+Map$<$ Car\+Option.\+Option\+Type, Integer $>$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a7659f08495ab5a78069fc88617695a70}{get\+Option\+Type\+Max\+Limit\+Map}} ()
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_ae1a515d3686b6d45b00cedaf7fd42d03}{get\+Car}} ()
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a49a3b3db8947c5d855b1c20cb7748ae2}{get\+Active\+Customer}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a0e41212d17da083b4519b47907a9d8bd}{Store}} ()
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_aeec261104a66d99c2385bb50b3b350fc}{Store}} (Integer \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a3e213add9f25d1435112ca7e578fa5db}{max\+Num\+Of\+Cars}})
+\item 
+abstract \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a7c214f14000e8710611cc72e6b67944d}{get\+New\+Car}} (\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} car\+Type)
+\item 
+abstract \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_aebc04e003e526d91cf4f6da26bfa27a2}{decorate\+Car}} (\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} car, Integer num\+Of\+Child\+Seats, Integer num\+Of\+G\+P\+S\+Modules, Integer num\+Of\+Radio\+Packages)
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_aaf60be29b1c391e7465567e72d99de0d}{initialize}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ \mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}} $>$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a824d0364fb091b65e4c72f705c34d3df}{observers}} = new Linked\+List$<$$>$()
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Recorder}{Recorder}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a932ce5300a8fd0305da861e101678ec3}{recorder}} = new \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Recorder}{Recorder}}(this)
+\item 
+Integer \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Store_a3e213add9f25d1435112ca7e578fa5db}{max\+Num\+Of\+Cars}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a0e41212d17da083b4519b47907a9d8bd}\label{classedu_1_1cu_1_1ooad_1_1Store_a0e41212d17da083b4519b47907a9d8bd}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!Store@{Store}}
+\index{Store@{Store}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{Store()}{Store()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily edu.\+cu.\+ooad.\+Store.\+Store (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_aeec261104a66d99c2385bb50b3b350fc}\label{classedu_1_1cu_1_1ooad_1_1Store_aeec261104a66d99c2385bb50b3b350fc}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!Store@{Store}}
+\index{Store@{Store}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{Store()}{Store()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily edu.\+cu.\+ooad.\+Store.\+Store (\begin{DoxyParamCaption}\item[{Integer}]{max\+Num\+Of\+Cars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Num\+Of\+Cars} & The number of Cars the store should add to its inventory, should be $>$ 10. In any case at least 10 cars, 2 of each category are always created \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a72df404ef0a55cdfcea206317e716867}\label{classedu_1_1cu_1_1ooad_1_1Store_a72df404ef0a55cdfcea206317e716867}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!addCarOfType@{addCarOfType}}
+\index{addCarOfType@{addCarOfType}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{addCarOfType()}{addCarOfType()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+add\+Car\+Of\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}}}]{car\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_ad049279aaf7d0b8f30e8929293627487}\label{classedu_1_1cu_1_1ooad_1_1Store_ad049279aaf7d0b8f30e8929293627487}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!addNewRental@{addNewRental}}
+\index{addNewRental@{addNewRental}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{addNewRental()}{addNewRental()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+Store.\+add\+New\+Rental (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}}}]{customer,  }\item[{Integer}]{num\+Of\+Days,  }\item[{Integer}]{num\+Of\+Cars,  }\item[{List$<$ \mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} $>$}]{car\+Type\+List }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em customer} & \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}} who wants to rent a car \\
+\hline
+{\em num\+Of\+Days} & number of days for which the customer wants to rent a car \\
+\hline
+{\em num\+Of\+Cars} & number of cars the customer wants \\
+\hline
+{\em car\+Type\+List} & types of cars the customer wants \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+transaction ID if customers request is approved 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a177c5ca368e84ff56b6f8588ef2c752b}\label{classedu_1_1cu_1_1ooad_1_1Store_a177c5ca368e84ff56b6f8588ef2c752b}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!addNewRental@{addNewRental}}
+\index{addNewRental@{addNewRental}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{addNewRental()}{addNewRental()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+Store.\+add\+New\+Rental (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}}}]{customer,  }\item[{Integer}]{num\+Of\+Days,  }\item[{Integer}]{num\+Of\+Cars,  }\item[{List$<$ \mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}} $>$}]{car\+Type\+List,  }\item[{List$<$ Integer $>$}]{num\+Of\+Child\+Seats\+List,  }\item[{List$<$ Integer $>$}]{num\+Of\+G\+P\+S\+Modules\+List,  }\item[{List$<$ Integer $>$}]{num\+Of\+Radio\+Packages\+List }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a05b820420194f85d2b0b69ec070863ab}\label{classedu_1_1cu_1_1ooad_1_1Store_a05b820420194f85d2b0b69ec070863ab}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!addNewRental@{addNewRental}}
+\index{addNewRental@{addNewRental}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{addNewRental()}{addNewRental()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+Store.\+add\+New\+Rental (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Transaction}{Transaction}}}]{transaction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_af96f55de19e3dd1b1c7c114eaa8baae1}\label{classedu_1_1cu_1_1ooad_1_1Store_af96f55de19e3dd1b1c7c114eaa8baae1}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!completeRental@{completeRental}}
+\index{completeRental@{completeRental}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{completeRental()}{completeRental()}}
+{\footnotesize\ttfamily boolean edu.\+cu.\+ooad.\+Store.\+complete\+Rental (\begin{DoxyParamCaption}\item[{String}]{transaction\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_aebc04e003e526d91cf4f6da26bfa27a2}\label{classedu_1_1cu_1_1ooad_1_1Store_aebc04e003e526d91cf4f6da26bfa27a2}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!decorateCar@{decorateCar}}
+\index{decorateCar@{decorateCar}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{decorateCar()}{decorateCar()}}
+{\footnotesize\ttfamily abstract \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} edu.\+cu.\+ooad.\+Store.\+decorate\+Car (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}}}]{car,  }\item[{Integer}]{num\+Of\+Child\+Seats,  }\item[{Integer}]{num\+Of\+G\+P\+S\+Modules,  }\item[{Integer}]{num\+Of\+Radio\+Packages }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em car} & \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} to be decorated \\
+\hline
+{\em num\+Of\+Child\+Seats} & required number of child seats \\
+\hline
+{\em num\+Of\+G\+P\+S\+Modules} & required number of gps modules \\
+\hline
+{\em num\+Of\+Radio\+Packages} & required number of radio packages \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} decorated with specified number of options using \textquotesingle{}Decorator pattern\textquotesingle{} 
+\end{DoxyReturn}
+
+
+Reimplemented in \mbox{\hyperlink{classstore_1_1CarRental_a4bd003756b72ae7db1cb8d21ba5f44aa}{store.\+Car\+Rental}}.
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a2d6cfa6052b5a2e9e96c62359c3aac7b}\label{classedu_1_1cu_1_1ooad_1_1Store_a2d6cfa6052b5a2e9e96c62359c3aac7b}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!endDay@{endDay}}
+\index{endDay@{endDay}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{endDay()}{endDay()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+end\+Day (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a677ee005f26cf4b0acd0c5804c0794f7}\label{classedu_1_1cu_1_1ooad_1_1Store_a677ee005f26cf4b0acd0c5804c0794f7}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!generateOverallStatus@{generateOverallStatus}}
+\index{generateOverallStatus@{generateOverallStatus}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{generateOverallStatus()}{generateOverallStatus()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+generate\+Overall\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a49a3b3db8947c5d855b1c20cb7748ae2}\label{classedu_1_1cu_1_1ooad_1_1Store_a49a3b3db8947c5d855b1c20cb7748ae2}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getActiveCustomer@{getActiveCustomer}}
+\index{getActiveCustomer@{getActiveCustomer}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getActiveCustomer()}{getActiveCustomer()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Customer}{Customer}} edu.\+cu.\+ooad.\+Store.\+get\+Active\+Customer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A customer with active rental 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_ae1a515d3686b6d45b00cedaf7fd42d03}\label{classedu_1_1cu_1_1ooad_1_1Store_ae1a515d3686b6d45b00cedaf7fd42d03}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getCar@{getCar}}
+\index{getCar@{getCar}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getCar()}{getCar()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} edu.\+cu.\+ooad.\+Store.\+get\+Car (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a9000dd08d548746eab12135849eab673}\label{classedu_1_1cu_1_1ooad_1_1Store_a9000dd08d548746eab12135849eab673}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getCustomerTypeLimitMap@{getCustomerTypeLimitMap}}
+\index{getCustomerTypeLimitMap@{getCustomerTypeLimitMap}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getCustomerTypeLimitMap()}{getCustomerTypeLimitMap()}}
+{\footnotesize\ttfamily Map$<$\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Customer_1_1Type}{Customer.\+Type}}, Recorder.\+Cus\+Type\+Limit$>$ edu.\+cu.\+ooad.\+Store.\+get\+Customer\+Type\+Limit\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_aafc2e41799e3bd5079fa35a1aa601691}\label{classedu_1_1cu_1_1ooad_1_1Store_aafc2e41799e3bd5079fa35a1aa601691}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getDayNumber@{getDayNumber}}
+\index{getDayNumber@{getDayNumber}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getDayNumber()}{getDayNumber()}}
+{\footnotesize\ttfamily Integer edu.\+cu.\+ooad.\+Store.\+get\+Day\+Number (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a7c214f14000e8710611cc72e6b67944d}\label{classedu_1_1cu_1_1ooad_1_1Store_a7c214f14000e8710611cc72e6b67944d}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getNewCar@{getNewCar}}
+\index{getNewCar@{getNewCar}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getNewCar()}{getNewCar()}}
+{\footnotesize\ttfamily abstract \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} edu.\+cu.\+ooad.\+Store.\+get\+New\+Car (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}}}]{car\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em car\+Type} & \+: Concrete \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} \textquotesingle{}type\textquotesingle{} of object that needs to be created \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Concrete \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}} object of type \textquotesingle{}car\+Type\textquotesingle{}
+\end{DoxyReturn}
+This method is used to get new Cars that need to be added to the inventory 
+
+Reimplemented in \mbox{\hyperlink{classstore_1_1CarRental_a870843dd5d7093f9d20a368de40f1dd2}{store.\+Car\+Rental}}.
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a83f939391c8a48a9156a94ccae8b68b0}\label{classedu_1_1cu_1_1ooad_1_1Store_a83f939391c8a48a9156a94ccae8b68b0}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getNewCars@{getNewCars}}
+\index{getNewCars@{getNewCars}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getNewCars()}{getNewCars()}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Car}{Car}}$>$ edu.\+cu.\+ooad.\+Store.\+get\+New\+Cars (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}}}]{type,  }\item[{Integer}]{num\+Of\+Cars }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a7659f08495ab5a78069fc88617695a70}\label{classedu_1_1cu_1_1ooad_1_1Store_a7659f08495ab5a78069fc88617695a70}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getOptionTypeMaxLimitMap@{getOptionTypeMaxLimitMap}}
+\index{getOptionTypeMaxLimitMap@{getOptionTypeMaxLimitMap}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getOptionTypeMaxLimitMap()}{getOptionTypeMaxLimitMap()}}
+{\footnotesize\ttfamily Map$<$Car\+Option.\+Option\+Type, Integer$>$ edu.\+cu.\+ooad.\+Store.\+get\+Option\+Type\+Max\+Limit\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a516ddf505c15f884dc8c706501c0d5d2}\label{classedu_1_1cu_1_1ooad_1_1Store_a516ddf505c15f884dc8c706501c0d5d2}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getOverallStatusReport@{getOverallStatusReport}}
+\index{getOverallStatusReport@{getOverallStatusReport}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getOverallStatusReport()}{getOverallStatusReport()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Report}{Report}} edu.\+cu.\+ooad.\+Store.\+get\+Overall\+Status\+Report (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a4495c071807a84c6f4ad82f1d9c47293}\label{classedu_1_1cu_1_1ooad_1_1Store_a4495c071807a84c6f4ad82f1d9c47293}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getReportForDay@{getReportForDay}}
+\index{getReportForDay@{getReportForDay}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getReportForDay()}{getReportForDay()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1Report}{Report}} edu.\+cu.\+ooad.\+Store.\+get\+Report\+For\+Day (\begin{DoxyParamCaption}\item[{Integer}]{day\+Number }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_afbd48bcaaf84bfe09069297a82f3897c}\label{classedu_1_1cu_1_1ooad_1_1Store_afbd48bcaaf84bfe09069297a82f3897c}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getTotalNumOfCars@{getTotalNumOfCars}}
+\index{getTotalNumOfCars@{getTotalNumOfCars}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getTotalNumOfCars()}{getTotalNumOfCars()}}
+{\footnotesize\ttfamily Integer edu.\+cu.\+ooad.\+Store.\+get\+Total\+Num\+Of\+Cars (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+Total number of cars added to the inventory, it\textquotesingle{}s basically the number of cars owned by the store 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a9b43a8e2c3891b353e45bcaca7c130c6}\label{classedu_1_1cu_1_1ooad_1_1Store_a9b43a8e2c3891b353e45bcaca7c130c6}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!getTotalNumOfCarsOfType@{getTotalNumOfCarsOfType}}
+\index{getTotalNumOfCarsOfType@{getTotalNumOfCarsOfType}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{getTotalNumOfCarsOfType()}{getTotalNumOfCarsOfType()}}
+{\footnotesize\ttfamily Integer edu.\+cu.\+ooad.\+Store.\+get\+Total\+Num\+Of\+Cars\+Of\+Type (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{enumedu_1_1cu_1_1ooad_1_1Car_1_1Type}{Car.\+Type}}}]{car\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_aaf60be29b1c391e7465567e72d99de0d}\label{classedu_1_1cu_1_1ooad_1_1Store_aaf60be29b1c391e7465567e72d99de0d}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!initialize@{initialize}}
+\index{initialize@{initialize}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{initialize()}{initialize()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+initialize (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+Creates required number of Cars and add to recorder, any other initializations \mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_afc0e36e57c3dd0464503941d53a78c2c}\label{classedu_1_1cu_1_1ooad_1_1Store_afc0e36e57c3dd0464503941d53a78c2c}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!notifyObservers@{notifyObservers}}
+\index{notifyObservers@{notifyObservers}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{notifyObservers()}{notifyObservers()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+notify\+Observers (\begin{DoxyParamCaption}\item[{Object}]{object }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Implements \mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observable_afddd0b3bb4036e77e9000a17fedb7e38}{edu.\+cu.\+ooad.\+util.\+Observable}}.
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a095a267ba7f3e734fa31f2a5d8b1da8a}\label{classedu_1_1cu_1_1ooad_1_1Store_a095a267ba7f3e734fa31f2a5d8b1da8a}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!registerObserver@{registerObserver}}
+\index{registerObserver@{registerObserver}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{registerObserver()}{registerObserver()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+register\+Observer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}}}]{observer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Implements \mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observable_ae53e0eb69e4f1a54608f9bcb3d49da67}{edu.\+cu.\+ooad.\+util.\+Observable}}.
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a8b57fac6a7e9da682f43dc42a932913f}\label{classedu_1_1cu_1_1ooad_1_1Store_a8b57fac6a7e9da682f43dc42a932913f}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!removeObserver@{removeObserver}}
+\index{removeObserver@{removeObserver}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{removeObserver()}{removeObserver()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+remove\+Observer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}}}]{observer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Implements \mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observable_a56bd461821c5b4f5690ea447eb320a6c}{edu.\+cu.\+ooad.\+util.\+Observable}}.
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_aecfcf3ec9395f675d14dcd8451599ef9}\label{classedu_1_1cu_1_1ooad_1_1Store_aecfcf3ec9395f675d14dcd8451599ef9}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!startNewDay@{startNewDay}}
+\index{startNewDay@{startNewDay}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{startNewDay()}{startNewDay()}}
+{\footnotesize\ttfamily void edu.\+cu.\+ooad.\+Store.\+start\+New\+Day (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a3e213add9f25d1435112ca7e578fa5db}\label{classedu_1_1cu_1_1ooad_1_1Store_a3e213add9f25d1435112ca7e578fa5db}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!maxNumOfCars@{maxNumOfCars}}
+\index{maxNumOfCars@{maxNumOfCars}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{maxNumOfCars}{maxNumOfCars}}
+{\footnotesize\ttfamily Integer edu.\+cu.\+ooad.\+Store.\+max\+Num\+Of\+Cars\hspace{0.3cm}{\ttfamily [private]}}
+
+The numbers of Cars in inventory, when no car is rented (=maximum number of cars the store has at any given time) \mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a824d0364fb091b65e4c72f705c34d3df}\label{classedu_1_1cu_1_1ooad_1_1Store_a824d0364fb091b65e4c72f705c34d3df}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!observers@{observers}}
+\index{observers@{observers}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{observers}{observers}}
+{\footnotesize\ttfamily List$<$\mbox{\hyperlink{interfaceedu_1_1cu_1_1ooad_1_1util_1_1Observer}{Observer}}$>$ edu.\+cu.\+ooad.\+Store.\+observers = new Linked\+List$<$$>$()\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1Store_a932ce5300a8fd0305da861e101678ec3}\label{classedu_1_1cu_1_1ooad_1_1Store_a932ce5300a8fd0305da861e101678ec3}} 
+\index{edu.cu.ooad.Store@{edu.cu.ooad.Store}!recorder@{recorder}}
+\index{recorder@{recorder}!edu.cu.ooad.Store@{edu.cu.ooad.Store}}
+\doxysubsubsection{\texorpdfstring{recorder}{recorder}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Recorder}{Recorder}} edu.\+cu.\+ooad.\+Store.\+recorder = new \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1Recorder}{Recorder}}(this)\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/edu/cu/ooad/\mbox{\hyperlink{Store_8java}{Store.\+java}}\end{DoxyCompactItemize}

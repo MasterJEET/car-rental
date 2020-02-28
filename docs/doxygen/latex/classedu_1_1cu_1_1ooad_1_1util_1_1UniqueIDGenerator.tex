@@ -1,0 +1,123 @@
+\hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}{}\doxysection{edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator Class Reference}
+\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+
+
+Collaboration diagram for edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a9771060dd50324501b36ed419d3da540}{generate\+Unique\+ID}} (String type)
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_aeb498532818a9000eebbc793207bc210}{generate\+Unique\+ID}} ()
+\item 
+String \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_adcd75ebd5ffd8fd9e0599e174330a254}{generate\+Unique\+ID}} (String type, String format)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}{Unique\+I\+D\+Generator}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a64a215dfc17d46376264458086f1887e}{get\+Instance}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a11b172e149c0f00b8f02e2191bd0012b}{Unique\+I\+D\+Generator}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Map$<$ String, Integer $>$ \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a58b1059634a095bad5bd000f6ab44960}{next\+ID}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}{Unique\+I\+D\+Generator}} \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a514589147f77083ce24b44bb5fc6cf94}{instance}} = null
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class will generate unique I\+Ds to be used in license plate and record (transaction ID) 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a11b172e149c0f00b8f02e2191bd0012b}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a11b172e149c0f00b8f02e2191bd0012b}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!UniqueIDGenerator@{UniqueIDGenerator}}
+\index{UniqueIDGenerator@{UniqueIDGenerator}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{UniqueIDGenerator()}{UniqueIDGenerator()}}
+{\footnotesize\ttfamily edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+Unique\+I\+D\+Generator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_aeb498532818a9000eebbc793207bc210}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_aeb498532818a9000eebbc793207bc210}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!generateUniqueID@{generateUniqueID}}
+\index{generateUniqueID@{generateUniqueID}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{generateUniqueID()}{generateUniqueID()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+generate\+Unique\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+String, an Integer \textquotesingle{}next\textquotesingle{} appended to \textquotesingle{}type\textquotesingle{}; Integer \textquotesingle{}next\textquotesingle{} is guaranteed to be unique if the function is called with the same \textquotesingle{}type\textquotesingle{}
+\end{DoxyReturn}
+Note that this implementation is not thread safe and is intended to be so as the problem states to design single threaded system \mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a9771060dd50324501b36ed419d3da540}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a9771060dd50324501b36ed419d3da540}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!generateUniqueID@{generateUniqueID}}
+\index{generateUniqueID@{generateUniqueID}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{generateUniqueID()}{generateUniqueID()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+generate\+Unique\+ID (\begin{DoxyParamCaption}\item[{String}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & It\textquotesingle{}s a String representing a category (or group) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String, an Integer \textquotesingle{}next\textquotesingle{} appended to \textquotesingle{}type\textquotesingle{}; Integer \textquotesingle{}next\textquotesingle{} is guaranteed to be unique if the function is called with the same \textquotesingle{}type\textquotesingle{}
+\end{DoxyReturn}
+Note that this implementation is not thread safe and is intended to be so as the problem states to design single threaded system \mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_adcd75ebd5ffd8fd9e0599e174330a254}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_adcd75ebd5ffd8fd9e0599e174330a254}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!generateUniqueID@{generateUniqueID}}
+\index{generateUniqueID@{generateUniqueID}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{generateUniqueID()}{generateUniqueID()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily String edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+generate\+Unique\+ID (\begin{DoxyParamCaption}\item[{String}]{type,  }\item[{String}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & It\textquotesingle{}s a String representing a category (or group) \\
+\hline
+{\em format} & Specify formatting to be used while converting Integer to String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String, an Integer \textquotesingle{}next\textquotesingle{} appended to \textquotesingle{}type\textquotesingle{}; Integer \textquotesingle{}next\textquotesingle{} is guaranteed to be unique if the function is called with the same \textquotesingle{}type\textquotesingle{}
+\end{DoxyReturn}
+Note that this implementation is not thread safe and is intended to be so as the problem states to design single threaded system \mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a64a215dfc17d46376264458086f1887e}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a64a215dfc17d46376264458086f1887e}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!getInstance@{getInstance}}
+\index{getInstance@{getInstance}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{getInstance()}{getInstance()}}
+{\footnotesize\ttfamily static \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}{Unique\+I\+D\+Generator}} edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+get\+Instance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\begin{DoxyReturn}{Returns}
+Singleton object
+\end{DoxyReturn}
+Note that this implementation is not thread safe and is intended to be so as the problem states to design single threaded system 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a514589147f77083ce24b44bb5fc6cf94}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a514589147f77083ce24b44bb5fc6cf94}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!instance@{instance}}
+\index{instance@{instance}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{instance}{instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator}{Unique\+I\+D\+Generator}} edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+instance = null\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\mbox{\Hypertarget{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a58b1059634a095bad5bd000f6ab44960}\label{classedu_1_1cu_1_1ooad_1_1util_1_1UniqueIDGenerator_a58b1059634a095bad5bd000f6ab44960}} 
+\index{edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}!nextID@{nextID}}
+\index{nextID@{nextID}!edu.cu.ooad.util.UniqueIDGenerator@{edu.cu.ooad.util.UniqueIDGenerator}}
+\doxysubsubsection{\texorpdfstring{nextID}{nextID}}
+{\footnotesize\ttfamily Map$<$String, Integer$>$ edu.\+cu.\+ooad.\+util.\+Unique\+I\+D\+Generator.\+next\+ID\hspace{0.3cm}{\ttfamily [private]}}
+
+This map stores for each String (representing a type of Object) the next Integer that can be used as unique ID 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/main/java/edu/cu/ooad/util/\mbox{\hyperlink{UniqueIDGenerator_8java}{Unique\+I\+D\+Generator.\+java}}\end{DoxyCompactItemize}

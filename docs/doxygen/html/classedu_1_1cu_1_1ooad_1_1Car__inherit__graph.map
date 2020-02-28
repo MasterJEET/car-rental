@@ -1,0 +1,12 @@
+<map id="edu.cu.ooad.Car" name="edu.cu.ooad.Car">
+<area shape="rect" id="node1" title=" " alt="" coords="5,132,132,159"/>
+<area shape="rect" id="node2" href="$classcartype_1_1Economy.html" title=" " alt="" coords="198,5,333,32"/>
+<area shape="rect" id="node3" href="$classcartype_1_1Luxury.html" title=" " alt="" coords="206,56,325,83"/>
+<area shape="rect" id="node4" href="$classcartype_1_1MiniVan.html" title=" " alt="" coords="202,107,329,133"/>
+<area shape="rect" id="node5" href="$classcartype_1_1Standard.html" title=" " alt="" coords="199,157,332,184"/>
+<area shape="rect" id="node6" href="$classcartype_1_1SUV.html" title=" " alt="" coords="214,208,317,235"/>
+<area shape="rect" id="node7" href="$classedu_1_1cu_1_1ooad_1_1CarOption.html" title=" " alt="" coords="180,259,351,285"/>
+<area shape="rect" id="node8" href="$classcaroption_1_1ChildSeat.html" title=" " alt="" coords="413,208,563,235"/>
+<area shape="rect" id="node9" href="$classcaroption_1_1GPSModule.html" title=" " alt="" coords="408,259,568,285"/>
+<area shape="rect" id="node10" href="$classcaroption_1_1RadioPackage.html" title=" " alt="" coords="399,309,577,336"/>
+</map>

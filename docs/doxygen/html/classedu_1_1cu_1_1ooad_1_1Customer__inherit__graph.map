@@ -1,0 +1,6 @@
+<map id="edu.cu.ooad.Customer" name="edu.cu.ooad.Customer">
+<area shape="rect" id="node1" title=" " alt="" coords="155,5,323,32"/>
+<area shape="rect" id="node2" href="$classcustomer_1_1Business.html" title=" " alt="" coords="5,80,149,107"/>
+<area shape="rect" id="node3" href="$classcustomer_1_1Casual.html" title=" " alt="" coords="173,80,304,107"/>
+<area shape="rect" id="node4" href="$classcustomer_1_1Regular.html" title=" " alt="" coords="329,80,463,107"/>
+</map>
