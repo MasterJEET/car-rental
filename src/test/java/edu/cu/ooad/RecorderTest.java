@@ -463,4 +463,6 @@ class RecorderTest {
 
     //TODO: Test cases for max car limit per transaction and overall
 
+    //TODO: Number of cars of given type limit maybe?
+
 }

@@ -354,6 +354,30 @@ public class Recorder {
         return null;
     }
 
+    public Car getCar() {
+        List<Car.Type> carTypeList = new LinkedList<>(Arrays.asList(
+                Car.Type.ECONOMY,
+                Car.Type.STANDARD,
+                Car.Type.MINIVAN,
+                Car.Type.SUV,
+                Car.Type.LUXURY
+        ));
+        List<Car> list = new LinkedList<>();
+
+        for (Car.Type carType: carTypeList) {
+            List<String> availableLPLList = carTypeAvailableLPLListMap.get(carType);
+            if (availableLPLList != null) {
+                for (String lpn: availableLPLList) {
+                    list.add(lplCarMap.get(lpn));
+                }
+            }
+        }
+        if (list.size() != 0) {
+            return list.get(new Random().nextInt(list.size()));
+        }
+        return null;
+    }
+
     /**
      * @param carType Car Type
      * @return Number of Cars of type 'carType' available for rent
@@ -539,5 +563,26 @@ public class Recorder {
 
     public Report getOverallStatusReport() {
         return overallStatusReport;
+    }
+
+    public Map<Customer.Type, CusTypeLimit> getCustomerTypeLimitMap() {
+        return customerTypeLimitMap;
+    }
+
+    public Map<CarOption.OptionType, Integer> getOptionTypeMaxLimitMap() {
+        return optionTypeMaxLimitMap;
+    }
+
+    /**
+     * @return Customer with at least one active rental
+     */
+    public Customer getActiveCustomer() {
+        List<String> activeTIDList = new LinkedList<>();
+        cidActiveTIDListMap.entrySet().stream()
+                .map(entry -> entry.getValue())
+                .forEach(tidList -> activeTIDList.addAll(tidList));
+
+        String tid = activeTIDList.get(new Random().nextInt(activeTIDList.size()));
+        return tidTransactionMap.get(tid).customer;
     }
 }

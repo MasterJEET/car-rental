@@ -1,11 +1,10 @@
 package edu.cu.ooad;
 
 import edu.cu.ooad.util.*;
+import edu.cu.ooad.util.Observable;
+import edu.cu.ooad.util.Observer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Store implements Observable {
     private List<Observer> observers = new LinkedList<>();
@@ -149,6 +148,10 @@ public abstract class Store implements Observable {
         transaction.numOfGPSModulesList = numOfGPSModulesList;
         transaction.numOfRadioPackagesList = numOfRadioPackagesList;
 
+        return addNewRental(transaction);
+    }
+
+    public String addNewRental(Transaction transaction) {
         String transactionID = recorder.addNewRental(transaction);
         if( transactionID == null ) {
             System.err.println(transaction.msg);
@@ -157,7 +160,6 @@ public abstract class Store implements Observable {
         return transactionID;
     }
 
-    //TODO: Simulator should call finish and system should verify
     public boolean completeRental(String transactionID) {
         Transaction transaction = new Transaction();
         transaction.transactionID = transactionID;
@@ -209,5 +211,24 @@ public abstract class Store implements Observable {
 
     public Report getOverallStatusReport() {
         return recorder.getOverallStatusReport();
+    }
+
+    public Map<Customer.Type, Recorder.CusTypeLimit> getCustomerTypeLimitMap() {
+        return recorder.getCustomerTypeLimitMap();
+    }
+
+    public Map<CarOption.OptionType, Integer> getOptionTypeMaxLimitMap() {
+        return recorder.getOptionTypeMaxLimitMap();
+    }
+
+    public Car getCar() {
+        return recorder.getCar();
+    }
+
+    /**
+     * @return A customer with active rental
+     */
+    public Customer getActiveCustomer() {
+        return recorder.getActiveCustomer();
     }
 }

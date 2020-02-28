@@ -4,6 +4,8 @@ import edu.cu.ooad.*;
 import edu.cu.ooad.util.RentalStatus;
 import edu.cu.ooad.util.Transaction;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class BusinessRule implements Rule {
@@ -119,16 +121,20 @@ public class BusinessRule implements Rule {
         return true;
     }
 
-    private boolean isCarTypeAvailable(Car.Type carType) {
+    /**
+     * @param carType Car types requested
+     * @param numRequested Requested number of specified car types
+     * @return True if required number of cars of specified type available, false otherwise
+     */
+    private boolean isCarTypeAvailable(Car.Type carType, Integer numRequested) {
         Transaction data = recorder.getTransaction();
         Integer numAvailable = recorder.getAvailableNumOfCarOfType(carType);
-        Integer numRequest = data.numOfCars;
-        if (numRequest > numAvailable) {
+        if (numAvailable < numRequested) {
             data.msg.delete(0, data.msg.length());
-            data.msg.append("Requested number of cars of required type not available; type: ")
+            data.msg.append("Requested number of Cars of required type not available; type: ")
                     .append(carType)
                     .append(" , requested: ")
-                    .append(numRequest)
+                    .append(numRequested)
                     .append(", available: ")
                     .append(numAvailable);
             return false;
@@ -137,12 +143,25 @@ public class BusinessRule implements Rule {
     }
     private boolean areCarTypesAvailable() {
         Transaction transaction = recorder.getTransaction();
-        for (Car.Type carType:
-             transaction.carTypeList) {
-            if (!isCarTypeAvailable(carType)) {
-                return false;
+
+        //Build a map with key as Car.Type and value as number of cars of that type requested
+        Map<Car.Type, Integer> carTypeNumRequestedMap = new HashMap<>();
+        for (Car.Type carType: transaction.carTypeList) {
+            Integer count = carTypeNumRequestedMap.get(carType);
+            if (count == null) {
+                count = 0;
+                carTypeNumRequestedMap.put(carType,0);
             }
+            carTypeNumRequestedMap.put(carType, count+1);
         }
+
+        //check if requested number of cars of required type available
+        Boolean allAvailable = carTypeNumRequestedMap.entrySet().stream()
+                .allMatch(entry -> isCarTypeAvailable(entry.getKey(), entry.getValue()));
+        if (!allAvailable) {
+            return false;
+        }
+
         return true;
     }
 

@@ -1,10 +1,8 @@
 package edu.cu.ooad;
 
-import edu.cu.ooad.util.Observable;
-import edu.cu.ooad.util.Observer;
-import edu.cu.ooad.util.RentalStatus;
-import edu.cu.ooad.util.Report;
+import edu.cu.ooad.util.*;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Summarizer implements Observer {
@@ -52,10 +50,29 @@ public class Summarizer implements Observer {
         Report report = new Report();
         report.type = Report.Type.DAILY_REPORT;
         report.dayNumber = recorder.getDayNumber();
-        report.completedRentals = recorder.getTransactionsOfStatus(RentalStatus.COMPLETE);
-        report.activeRentals = recorder.getTransactionsOfStatus(RentalStatus.ACTIVE);
+
+        List<Transaction> completedRentals = recorder.getTransactionsOfStatus(RentalStatus.COMPLETE);
+        if (completedRentals != null) {
+            for (Transaction transaction :completedRentals) {
+                report.completedRentals.add(new Transaction(transaction));
+            }
+        }
+
+        List<Transaction> activeRentals = recorder.getTransactionsOfStatus(RentalStatus.ACTIVE);
+        if (activeRentals != null) {
+            for (Transaction transaction :activeRentals) {
+                report.activeRentals.add(new Transaction(transaction));
+            }
+        }
+
         report.availableCars = recorder.getAvailableCars();
-        report.transactions = recorder.getTransactionsOfDay();
+
+        List<Transaction> transactions = recorder.getTransactionsOfDay();
+        if (transactions != null) {
+            for (Transaction transaction : transactions) {
+                report.transactions.add(new Transaction(transaction));
+            }
+        }
 
         recorder.addReportForDay(report.dayNumber, report);
     }

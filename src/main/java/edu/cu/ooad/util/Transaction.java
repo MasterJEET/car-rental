@@ -101,7 +101,7 @@ public class Transaction {
                     .append(", numOfChildSeats=").append(String.format("%03d",itrNumSeat.next()))
                     .append(", numOfGPSModules=").append(String.format("%03d",itrNumGPS.next()))
                     .append(", numOfRadioPackages=").append(String.format("%03d",itrNumRadio.next()))
-                    .append("} ");
+                    .append("} ").append(System.lineSeparator());
         }
 
         Double transactionCost = 0.0;
