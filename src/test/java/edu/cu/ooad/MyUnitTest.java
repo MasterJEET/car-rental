@@ -17,8 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-//TODO: Implement as per project description
-class RecorderTest {
+class MyUnitTest {
     private CarRental store = new CarRental();
     private Recorder recorder = new Recorder(store);
     private Customer regular1 = new Regular();
@@ -201,7 +200,7 @@ class RecorderTest {
         recorder.addCar(new Luxury());
         recorder.addCar(new Luxury());
 
-        //TODO: add test for carTypeList.size may be?
+        //TODO: check if need to add test for carTypeList.size
 
         // min child seat: 0
         r1.numOfChildSeatsList.remove(2);
@@ -462,7 +461,5 @@ class RecorderTest {
     }
 
     //TODO: Test cases for max car limit per transaction and overall
-
-    //TODO: Number of cars of given type limit maybe?
 
 }
