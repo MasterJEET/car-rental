@@ -218,7 +218,7 @@ class Simulator {
     }
 
     public Integer getNumOfOptions(CarOption.OptionType optionType) {
-        return new Random().nextInt(optionTypeMaxLimitMap.get(optionType));
+        return new Random().nextInt(optionTypeMaxLimitMap.get(optionType)+1);
     }
 
 }
